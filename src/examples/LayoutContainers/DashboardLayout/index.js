@@ -61,8 +61,8 @@ function DashboardLayout({ children }) {
           </Toolbar>
         </AppBar>
       </MDBox>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6} lg={10}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={12} lg={10}>
           <MDBox
             sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
               p: 3,
@@ -79,9 +79,20 @@ function DashboardLayout({ children }) {
             {children}
           </MDBox>
         </Grid>
-        <Grid item xs={12} md={6} lg={2} sx={{
-                    position: 'relative'}}>
+        <Grid item xs={12} md={12} lg={2}>
+          <MDBox
+            sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+              [breakpoints.up("xl")]: {
+                marginRight: miniSidenav ? pxToRem(120) : pxToRem(1),
+                transition: transitions.create(["margin-left", "margin-right"], {
+                  easing: transitions.easing.easeInOut,
+                  duration: transitions.duration.standard,
+                }),
+              },
+            })}
+          >
            <SideBarRight />
+          </MDBox>
         </Grid>
       </Grid>
     

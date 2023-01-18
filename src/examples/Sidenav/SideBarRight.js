@@ -9,21 +9,11 @@ import MDButton from "components/MDButton";
 
 function SideBarRight() {
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexWrap: 'wrap'
-                , marginTop: '10px' ,
-                
-                '& > :not(style)': {
-                    m: 1,   
-                    position: 'fixed'
-                },
-            }}
-
-        >
-            <Paper elevation={3} sx={{position: 'fixed'}} >
-                <Card sx={{ minWidth: 275}}>
+        <Box sx={{marginTop: '70px', position: 'fixed'}}>
+          
+               
+           
+            <Card>
                     <CardContent>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                            Card de informações
@@ -46,7 +36,7 @@ function SideBarRight() {
                         </MDButton>
                     </CardActions>
                 </Card>
-            </Paper>
+                
         </Box>
     )
 }
