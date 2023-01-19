@@ -32,6 +32,16 @@ import Grid from "@mui/material/Grid";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import ChurchIcon from '@mui/icons-material/Church';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Button from '@mui/material/Button';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
@@ -56,12 +66,21 @@ import {
   setOpenConfigurator,
 } from "context";
 
-function DashboardNavbar({ absolute, light, isMini }) {
+const drawerWidth = 240;
+const navItems = ['Home', 'About', 'Contact'];
+function DashboardNavbar({ absolute, light, isMini}, props) {
+  const { windows } = props;
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
 
   useEffect(() => {
     // Setting the navbar type
@@ -127,45 +146,52 @@ function DashboardNavbar({ absolute, light, isMini }) {
     },
   });
 
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        MUI
+      </Typography>
+      <Divider />
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item} disablePadding>
+            <ListItemButton sx={{ textAlign: 'center' }}>
+              <ListItemText primary={item} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+  const container = windows !== undefined ? () => window().document.body : undefined;
+
   return (
-    <AppBar
-      position="fixed"
-      color="info" variant="gradient"
-    >
+    <Box sx={{ display: 'flex' }}>
+    <CssBaseline />
+    <AppBar component="nav" color="info">
       <Toolbar>
-      <Grid item xs={6} md={6} lg={6}>
-        <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          {/* <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} /> */}
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}  color="inherit">
-              Logo
-            </Typography>  
-        </MDBox>
-        </Grid>
-        <Grid xs={6} md={6} lg={6}>
-        <MDBox display="flex" justifyContent="flex-end">
-        {isMini ? null : (
-          <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-            {/* <MDBox pr={1}>
-              <MDInput label="Search here" />
-            </MDBox> */}
-            <MDBox>
-              <Link to="/authentication/sign-in/basic">
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          sx={{ mr: 2, display: { sm: 'none' } }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+        >
+          MUI
+        </Typography>
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Link to="/authentication/sign-in/basic">
                 <IconButton sx={navbarIconButton} size="small" disableRipple>
                   <AccountCircleIcon color="white" fontSize="medium" />
                 </IconButton>
               </Link>
-              <IconButton
-                size="small"
-                disableRipple
-                color="white"
-                sx={navbarMobileMenu}
-                onClick={handleMiniSidenav}
-              >
-                {/* <Icon sx={iconsStyle} fontSize="medium">
-                  {miniSidenav ? "menu_open" : "menu"}
-                </Icon> */}
-                <MenuIcon color="white" fontSize="medium" title="menu"/>
-              </IconButton>
               <IconButton
                 size="small"
                 disableRipple
@@ -188,13 +214,29 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 <NotificationsIcon color="white" fontSize="medium"/>
               </IconButton>
               {renderMenu()}
-            </MDBox>
-          </MDBox>
-        )}
-        </MDBox>
-        </Grid>
+        </Box>
       </Toolbar>
     </AppBar>
+    <Box component="nav">
+      <Drawer
+        container={container}
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true, // Better open performance on mobile.
+        }}
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+        
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,  margin: '0rem !important' },
+        }}
+      >
+        {drawer}
+      </Drawer>
+    </Box>
+  
+  </Box>
   );
 }
 
@@ -210,6 +252,7 @@ DashboardNavbar.propTypes = {
   absolute: PropTypes.bool,
   light: PropTypes.bool,
   isMini: PropTypes.bool,
+  window: PropTypes.func,
 };
 
 export default DashboardNavbar;
