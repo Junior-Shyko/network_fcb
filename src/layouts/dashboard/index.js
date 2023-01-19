@@ -30,13 +30,14 @@ import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import FormPost from "layouts/dashboard/components/FormPost";
 import ContentPost from "./components/ContentPost";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
 
   return (
     <DashboardLayout>
-      {/* <DashboardNavbar /> */}
+      <DashboardNavbar />
       <MDBox py={3} sx={{ marginTop: '25px' }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={12}>

@@ -27,10 +27,13 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
-
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDInput from "components/MDInput";
 
 // Material Dashboard 2 React example components
 import Breadcrumbs from "examples/Breadcrumbs";
@@ -117,43 +120,51 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
       if (transparentNavbar && !light) {
         colorValue = darkMode ? rgba(text.main, 0.6) : text.main;
+        //FORÇANDO A COR BRANCA
+        colorValue = "#fff";
       }
-
       return colorValue;
     },
   });
 
   return (
     <AppBar
-      position={absolute ? "absolute" : navbarType}
-      color="inherit"
-      sx={(theme) => navbar(theme, { transparentNavbar, absolute, light, darkMode })}
+      position="fixed"
+      color="info" variant="gradient"
     >
-      <Toolbar sx={(theme) => navbarContainer(theme)}>
+      <Toolbar>
+      <Grid item xs={6} md={6} lg={6}>
         <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-          <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
+          {/* <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} /> */}
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}  color="inherit">
+              Logo
+            </Typography>  
         </MDBox>
+        </Grid>
+        <Grid xs={6} md={6} lg={6}>
+        <MDBox display="flex" justifyContent="flex-end">
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <MDBox pr={1}>
+            {/* <MDBox pr={1}>
               <MDInput label="Search here" />
-            </MDBox>
-            <MDBox color={light ? "white" : "inherit"}>
+            </MDBox> */}
+            <MDBox>
               <Link to="/authentication/sign-in/basic">
                 <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <Icon sx={iconsStyle}>account_circle</Icon>
+                  <AccountCircleIcon color="white" fontSize="medium" />
                 </IconButton>
               </Link>
               <IconButton
                 size="small"
                 disableRipple
-                color="inherit"
+                color="white"
                 sx={navbarMobileMenu}
                 onClick={handleMiniSidenav}
               >
-                <Icon sx={iconsStyle} fontSize="medium">
+                {/* <Icon sx={iconsStyle} fontSize="medium">
                   {miniSidenav ? "menu_open" : "menu"}
-                </Icon>
+                </Icon> */}
+                <MenuIcon color="white" fontSize="medium" title="menu"/>
               </IconButton>
               <IconButton
                 size="small"
@@ -174,12 +185,14 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 variant="contained"
                 onClick={handleOpenMenu}
               >
-                <Icon sx={iconsStyle}>notifications</Icon>
+                <NotificationsIcon color="white" fontSize="medium"/>
               </IconButton>
               {renderMenu()}
             </MDBox>
           </MDBox>
         )}
+        </MDBox>
+        </Grid>
       </Toolbar>
     </AppBar>
   );

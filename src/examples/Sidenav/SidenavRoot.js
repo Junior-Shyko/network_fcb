@@ -47,6 +47,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
   const drawerOpenStyles = () => ({
     background: backgroundValue,
     marginTop: '80px',
+   
     transform: "translateX(0)",
     transition: transitions.create("transform", {
       easing: transitions.easing.sharp,

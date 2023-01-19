@@ -23,16 +23,17 @@ import PropTypes from "prop-types";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDButton from "components/MDButton";
 // Material Dashboard 2 React context
 import { useMaterialUIController, setLayout } from "context";
 
 // Componente Material Ui
 import AppBar from "@mui/material/AppBar";
-// import Box from "@mui/material/Box";
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 import SideBarRight from "./../../Sidenav/SideBarRight";
 import MenuProfile from "layouts/dashboard/components/MenuProfile";
@@ -46,20 +47,30 @@ function DashboardLayout({ children }) {
   }, [pathname]);
 
   return (
-    <div>
-      <MDBox m={1}  sx={{ flexGrow: 1 }}>
+    <MDBox>
+      
+      {/* <MDBox m={1}  sx={{ flexGrow: 1 }}>
         <AppBar position="fixed" color="info" variant="gradient">
-          <Toolbar>
-            
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
-            </Typography>
+          <Toolbar>            
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}  color="inherit">
+              Logo
+            </Typography>            
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              title="Sua instituição"
+            >
+              <ApartmentIcon />
+            </IconButton>
             <MenuProfile />
           </Toolbar>
         </AppBar>
-      </MDBox>
+      </MDBox> */}
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12} lg={9}>
+        <Grid item xs={12} md={12} lg={10}>
           <MDBox
             sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
               p: 3,
@@ -76,11 +87,12 @@ function DashboardLayout({ children }) {
             {children}
           </MDBox>
         </Grid>
-        <Grid item xs={12} md={12} lg={3}>
+        <Grid item xs={12} md={12} lg={2}>
           <MDBox
             sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
               [breakpoints.up("xl")]: {
                 marginLeft: miniSidenav ? pxToRem(120) : pxToRem(30),
+                marginTop: 1,         
                 transition: transitions.create(["margin-left", "margin-right"], {
                   easing: transitions.easing.easeInOut,
                   duration: transitions.duration.standard,
@@ -94,7 +106,7 @@ function DashboardLayout({ children }) {
       </Grid>
     
     
-    </div>
+    </MDBox>
   );
 }
 

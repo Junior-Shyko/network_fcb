@@ -14,8 +14,8 @@ import OrdersOverview from "../../layouts/dashboard/components/OrdersOverview";
 
 function SideBarRight() {
     return (
-        <Box sx={{ marginTop: '70px', position: 'fixed', maxHeight: 800, overflow: 'auto'}}>
-            <Card sx={{maxWidth: '350px'}}>
+        <Box sx={{ marginTop: '70px', position: 'fixed', maxHeight: 800, overflow: 'auto',   borderRadius: '18px',}}>
+            <Card sx={{maxWidth: '250px'}}>
                 <CardMedia
                     sx={{ height: 300 }}
                     image="https://d2r9epyceweg5n.cloudfront.net/stores/002/363/568/products/whatsapp-image-2022-08-24-at-17-36-361-dd505a7bf0ce039a3016613752127470-1024-1024.jpeg"
@@ -45,7 +45,7 @@ function SideBarRight() {
                 </CardActions>
             </Card>
             <Grid item xs={12} md={12} lg={12}>
-                <Box sx={{ marginTop: '10px' }}>
+                <Box sx={{ marginTop: '10px', maxWidth: '250px' }}>
                 <OrdersOverview />
                 </Box>
               
