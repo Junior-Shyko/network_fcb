@@ -32,13 +32,10 @@ import AppBar from "@mui/material/AppBar";
 // import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Grid from "@mui/material/Grid";
 
 import SideBarRight from "./../../Sidenav/SideBarRight";
-
+import MenuProfile from "layouts/dashboard/components/MenuProfile";
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav } = controller;
@@ -57,7 +54,7 @@ function DashboardLayout({ children }) {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               News
             </Typography>
-            <MDButton variant="gradient" color="light">Perfil</MDButton>
+            <MenuProfile />
           </Toolbar>
         </AppBar>
       </MDBox>
