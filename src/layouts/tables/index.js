@@ -20,12 +20,15 @@ import Card from "@mui/material/Card";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import MDButton from "components/MDButton";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
+import IconButton from '@mui/material/IconButton';
+import Icon from "@mui/material/Icon";
 
 // Data
 import authorsTableData from "layouts/tables/data/authorsTableData";
@@ -40,21 +43,63 @@ function Tables() {
       <DashboardNavbar />
       <MDBox pt={6} pb={3}>
         <Grid container spacing={6}>
-          <Grid item xs={12}>
+          <Grid item xs={12}  mt={1}>
             <Card>
               <MDBox
-                mx={2}
-                mt={-3}
+                mx={2}              
                 py={3}
                 px={2}
-                variant="gradient"
-                bgColor="info"
+                variant="gradient"             
                 borderRadius="lg"
-                coloredShadow="info"
+                coloredShadow="dark"
               >
-                <MDTypography variant="h6" color="white">
-                  Authors Table
-                </MDTypography>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}  display="flex" justifyContent="center">
+                  <MDBox
+                    borderRadius="lg"
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"                   
+                  >
+                    <MDBox>
+                      <MDButton variant="gradient" color="info">
+                        <Icon>person_add_icon</Icon>
+                        &nbsp; adicionar membro
+                      </MDButton>
+                    </MDBox>
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}  display="flex" justifyContent="center">
+                  <MDBox
+                    borderRadius="lg"
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"                   
+                  >
+                    <MDBox>
+                      <MDButton variant="gradient" color="info">
+                        <Icon>home_icon</Icon>
+                        &nbsp; Feed de notícias
+                      </MDButton>
+                    </MDBox>
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}  display="flex" justifyContent="center">
+                  <MDBox
+                    borderRadius="lg"
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"                   
+                  >
+                    <MDBox>
+                      <MDButton variant="gradient" color="info">
+                        <Icon>groups_icon</Icon>
+                        &nbsp; visualizar grupos
+                      </MDButton>
+                    </MDBox>
+                  </MDBox>
+                </Grid>
+              </Grid>
               </MDBox>
               <MDBox pt={3}>
                 <DataTable
