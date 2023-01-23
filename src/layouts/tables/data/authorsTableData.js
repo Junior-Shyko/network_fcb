@@ -14,13 +14,15 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
+import { Link } from "react-router-dom";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDAvatar from "components/MDAvatar";
 import MDBadge from "components/MDBadge";
-
+import MDButton from "components/MDButton";
+// @mui material components
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 // Images
 import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
@@ -51,11 +53,24 @@ export default function data() {
 
   return {
     columns: [
-      { Header: "name", accessor: "attributes.name", align: "left" },
-      { Header: "function", accessor: "attributes.city", align: "left" },
-      { Header: "status", accessor: "attributes.state", align: "center" },
-      { Header: "employed", accessor: "attributes.phone", align: "center" },
-      { Header: "action", accessor: "action", align: "center" },
+      { Header: "name", accessor: "username", align: "left" },
+      { Header: "telefone", accessor: "phone", align: "left" },
+      { Header: "status", accessor: "state", align: "center" },
+      { Header: "Grupo", accessor: "nameGroup", align: "center" },
+      { Header: "ação", accessor: "action", align: "center",
+        Cell: ({ value }) => (
+          <MDBox>
+            <MDButton variant="gradient" color="info" size="medium" circular={true} iconOnly title="Editar Usuário">
+              {/* <Link to={`../usuario/editar/` + value} relative="path" > */}
+              <Link to="../profile" relative="path" >
+                <MDTypography color="white" >
+                    <ManageAccountsIcon />
+                </MDTypography>
+              </Link>
+            </MDButton>
+          </MDBox>
+        )
+      },
     ],
     rows : []
     // rows: [
