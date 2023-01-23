@@ -40,7 +40,6 @@ function SidenavCollapse({ icon, name, active, ...rest }) {
   const [controller] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
 
-console.log({darkMode})
   return (
     <ListItem component="li">
       <MDBox
