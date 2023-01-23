@@ -163,14 +163,14 @@ function DataTable({
                 renderInput={(params) => <MDInput {...params} />}
               />
               <MDTypography variant="caption" color="secondary">
-                &nbsp;&nbsp;entries per page
+                &nbsp;&nbsp;registro por página
               </MDTypography>
             </MDBox>
           )}
           {canSearch && (
             <MDBox width="12rem" ml="auto">
               <MDInput
-                placeholder="Search..."
+                placeholder="Pesquise..."
                 value={search}
                 size="small"
                 fullWidth
@@ -230,7 +230,7 @@ function DataTable({
         {showTotalEntries && (
           <MDBox mb={{ xs: 3, sm: 0 }}>
             <MDTypography variant="button" color="secondary" fontWeight="regular">
-              Showing {entriesStart} to {entriesEnd} of {rows.length} entries
+              Mostrando {entriesStart} de {entriesEnd} até {rows.length} registro
             </MDTypography>
           </MDBox>
         )}
@@ -270,7 +270,7 @@ function DataTable({
 // Setting default values for the props of DataTable
 DataTable.defaultProps = {
   entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
-  canSearch: false,
+  canSearch: true,
   showTotalEntries: true,
   pagination: { variant: "gradient", color: "info" },
   isSorted: true,
