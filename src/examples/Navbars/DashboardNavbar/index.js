@@ -205,77 +205,77 @@ function DashboardNavbar({ absolute, light, isMini}, props) {
   const container = windows !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
-    <CssBaseline />
-    <AppBar component="nav" color="info">
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-        >
-          MUI
-        </Typography>
-        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-          <Link to="/authentication/sign-in/basic">
-                <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <AccountCircleIcon color="white" fontSize="medium" />
+    <Box sx={{ display: 'flex',  background: 'red' }}>
+      <CssBaseline />
+      <AppBar component="nav" color="info">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            MUI
+          </Typography>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Link to="/authentication/sign-in/basic">
+                  <IconButton sx={navbarIconButton} size="small" disableRipple>
+                    <AccountCircleIcon color="white" fontSize="medium" />
+                  </IconButton>
+                </Link>
+                <IconButton
+                  size="small"
+                  disableRipple
+                  color="inherit"
+                  sx={navbarIconButton}
+                  onClick={handleConfiguratorOpen}
+                >
+                  <Icon sx={iconsStyle}>settings</Icon>
                 </IconButton>
-              </Link>
-              <IconButton
-                size="small"
-                disableRipple
-                color="inherit"
-                sx={navbarIconButton}
-                onClick={handleConfiguratorOpen}
-              >
-                <Icon sx={iconsStyle}>settings</Icon>
-              </IconButton>
-              <IconButton
-                size="small"
-                disableRipple
-                color="inherit"
-                sx={navbarIconButton}
-                aria-controls="notification-menu"
-                aria-haspopup="true"
-                variant="contained"
-                onClick={handleOpenMenu}
-              >
-                <NotificationsIcon color="white" fontSize="medium"/>
-              </IconButton>
-              {renderMenu()}
-        </Box>
-      </Toolbar>
-    </AppBar>
-    <Box component="nav">
-      <Drawer
-        container={container}
-        variant="temporary"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        sx={{
-          display: { xs: 'block', sm: 'none' },
-        
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,  margin: '0rem !important' },
-        }}
-      >
-        {drawer}
-      </Drawer>
+                <IconButton
+                  size="small"
+                  disableRipple
+                  color="inherit"
+                  sx={navbarIconButton}
+                  aria-controls="notification-menu"
+                  aria-haspopup="true"
+                  variant="contained"
+                  onClick={handleOpenMenu}
+                >
+                  <NotificationsIcon color="white" fontSize="medium"/>
+                </IconButton>
+                {renderMenu()}
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box component="nav">
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+          
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,  margin: '0rem !important' },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+    
     </Box>
-  
-  </Box>
   );
 }
 

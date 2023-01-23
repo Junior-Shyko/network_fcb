@@ -14,6 +14,8 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect, useMemo } from "react";
+// COMPONENTE CUSTOM
+import EditUser  from "components/FCB/User/Edit";
 
 // react-router components
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
@@ -193,7 +195,7 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
-        <Route path="usuario/editar/:id" element={<Navigate to="/dashboard" />} />
+        <Route path="usuario/editar/:id" element={<EditUser />} />
       </Routes>
     </ThemeProvider>
   );
