@@ -94,7 +94,8 @@ function Tables() {
                     <MDBox ml={-1}>
                       <MDBadge badgeContent={element2.name} color="success" variant="gradient" size="sm" />
                     </MDBox>
-                  )  
+                  ) ,
+                  id: element.id
                 };
               });
               // nameMember.push({phone : element.phone})
@@ -178,9 +179,9 @@ function Tables() {
               <MDBox pt={3}>
                 <DataTable
                   table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
+                  isSorted={true}
+                  entriesPerPage={true}
+                  showTotalEntries={true}
                   noEndBorder
                 />
               </MDBox>
