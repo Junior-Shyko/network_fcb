@@ -13,8 +13,9 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
-
+import { useState, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate  } from "react-router-dom";
 // react-router-dom components
 import { Link } from "react-router-dom";
 
@@ -37,14 +38,45 @@ import MDButton from "components/MDButton";
 
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
-
+import { AuthContext } from "context/AuthContext";
+import { api } from "services/Api";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
+
+  const { auth, setAuth} = useContext(AuthContext);
+  const { user, setUser} = useContext(AuthContext);
+  const { token, setToken} = useContext(AuthContext);
+  // console.log('user: ', user)
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  // console.log({user})
+
+  useEffect(() => {
+    const userToken = sessionStorage.getItem("token");
+    const userAuth  = sessionStorage.getItem("user");
+  }, []);
+
+  const onSubmit = data => {
+    api.post('auth/local',data )
+    .then((res) => {
+      console.log({res})
+      console.log(res.data.user)
+      setAuth(true)
+      setUser(res.data.user)
+      setToken(res.data.jwt)
+     
+      navigate("dashboard")
+    })
+    .catch((err) => {
+      console.log({err})
+    })
+  };
+
 
   return (
     <BasicLayout image={bgImage}>
@@ -82,12 +114,13 @@ function Basic() {
           </Grid>
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
-          <MDBox component="form" role="form">
+          <MDBox>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <MDBox mb={2}>
-              <MDInput type="email" label="Email" fullWidth />
+              <MDInput type="email" label="Email" fullWidth  {...register("identifier")} />
             </MDBox>
             <MDBox mb={2}>
-              <MDInput type="password" label="Password" fullWidth />
+              <MDInput type="password" label="Password" fullWidth  {...register("password")} />
             </MDBox>
             <MDBox display="flex" alignItems="center" ml={-1}>
               <Switch checked={rememberMe} onChange={handleSetRememberMe} />
@@ -102,8 +135,8 @@ function Basic() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
-                sign in
+              <MDButton variant="gradient" color="info"  type="submit" fullWidth>
+                login
               </MDButton>
             </MDBox>
             <MDBox mt={3} mb={1} textAlign="center">
@@ -121,6 +154,7 @@ function Basic() {
                 </MDTypography>
               </MDTypography>
             </MDBox>
+            </form>
           </MDBox>
         </MDBox>
       </Card>
