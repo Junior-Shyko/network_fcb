@@ -19,12 +19,12 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import burceMars from "assets/images/bruce-mars.jpg";
 import CompEditUser from "./compEditUser";
-import InfoInstitution from "../infoInstitution";
+
 
 function EditUser() {
   let { id } = useParams();
   const [user, setUser] = useState();
-  
+
   const getUser = () => {
     fetch('http://localhost:1337/api/users/' + id + '?populate=*')
       .then(response => response.json())
@@ -41,9 +41,9 @@ function EditUser() {
     getUser()
   }, [])
 
-const styleField = {
-  marginBottom: '5px',
-}
+  const styleField = {
+    marginBottom: '5px',
+  }
 
   return (
     <DashboardLayout>
@@ -53,7 +53,7 @@ const styleField = {
           <Grid item xs={4} md={1} >
             <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" sx={{ margin: 1 }} />
           </Grid>
-          <Grid item xs={8}  md={5} >
+          <Grid item xs={8} md={5} >
             <MDBox height="100%" mt={0.5} lineHeight={1}>
               <MDTypography variant="h5" fontWeight="medium">
                 Nome: {user?.username}
@@ -98,7 +98,7 @@ const styleField = {
             </MDBox>
           </Card>
           <Divider />
-          
+
           <Card component="li" display="flex" alignItems="center" py={1} mb={1}>
             <MDBox item p={1} display="flex">
               <MDBox mr={2}>
@@ -112,8 +112,8 @@ const styleField = {
             </MDBox>
             <MDBox p={2} mx={3} display="block">
               <CompEditUser label="Telefone" name="phone" value={user?.phone} />
-              <CompEditUser label="E-mail" name="email" value={user?.email} />              
-              <CompEditUser label="Senha" name="password" value={null} />              
+              <CompEditUser label="E-mail" name="email" value={user?.email} />
+              <CompEditUser label="Senha" name="password" value={null} />
             </MDBox>
           </Card>
           <Divider />
@@ -132,11 +132,37 @@ const styleField = {
               </MDBox>
               <MDBox display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center">
                 <MDTypography variant="button" fontWeight="medium">
-                  Dados da Igreja
+                  Dados da Igreja {user?.institutions[0].name}
                 </MDTypography>
               </MDBox>
             </MDBox>
-            <InfoInstitution institution={user?.institutions} />           
+            <MDBox mb={2} lineHeight={0} >
+              <Grid container>
+                <MDTypography variant="caption" color="text" mt={1} ml={2}>
+                  <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+                    Nome:
+                  </MDTypography>&nbsp;&nbsp;&nbsp;
+                  {user?.institutions[0].name}
+                </MDTypography>
+              </Grid>
+              <Grid container>
+                <MDTypography variant="caption" color="text" mt={1} ml={2}>
+                  <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+                    CNPJ:
+                  </MDTypography>&nbsp;&nbsp;&nbsp;
+                  {user?.institutions[0].cnpj}
+                </MDTypography>
+              </Grid>
+              <Grid container>
+                <MDTypography variant="caption" color="text" mt={1} ml={2}>
+                  <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+                    Endereço completo:
+                  </MDTypography>&nbsp;&nbsp;&nbsp;
+                  {user?.institutions[0].address} , {user?.institutions[0].number} , {user?.institutions[0].complement} , {user?.institutions[0].district} ,
+                  {user?.institutions[0].city} , {user?.institutions[0].state}.
+                </MDTypography>
+              </Grid>
+            </MDBox>
           </Card>
           <Divider />
           <Card component="li" display="flex" alignItems="center" py={1} mb={1}>
@@ -154,7 +180,6 @@ const styleField = {
               </MDBox>
             </MDBox>
           </Card>
-         
         </Grid>
       </Grid>
 
