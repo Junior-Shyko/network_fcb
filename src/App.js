@@ -14,9 +14,8 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect, useMemo, useContext } from "react";
-
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation} from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -73,10 +72,9 @@ export default function App() {
   const { pathname } = useLocation();
 
   //CONTEXTO DA AUTENTICAÇÃO
-  const { auth, setAuth, user, token } = useContext(AuthContext)
-console.log({auth})
-
-
+  const { auth, setAuth } = useContext(AuthContext)
+  const { user, setUser, token, setToken  } = useContext(AuthContext)
+  console.log({user})
   // Cache for the rtl
   useMemo(() => {
     const cacheRtl = createCache({
@@ -110,21 +108,30 @@ console.log({auth})
   useEffect(() => {
     // setAuth(false)
     document.body.setAttribute("dir", direction);
-   
+
   }, [direction]);
 
   useEffect(() => {
-    const userToken = sessionStorage.getItem("token");
-    const userAuth  = sessionStorage.getItem("user");
-   console.log({userToken})
-   console.log({auth})
 
+  //   const userToken = sessionStorage.getItem("token");
+  //   const userAuth  = sessionStorage.getItem("user");
+  //   // if(userAuth) {
+  //   //   // console.log({userAuth})
+  //   //   setUser(JSON.parse(userAuth))
+  //   //   setAuth(true)
+  //   // }
+  //  console.log({userToken})
+  //  console.log({auth})
+  //  console.log({user})
+  //  console.log({userAuth})
   }, []);
+
 
   // Setting page scroll to 0 when changing the route
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
+
   }, [pathname]);
 
   const getRoutes = (allRoutes) =>
@@ -190,7 +197,7 @@ console.log({auth})
       </ThemeProvider>
     </CacheProvider>
   ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
+    <ThemeProvider theme={darkMode ? themeDark : theme}>      
       <CssBaseline />
       {layout === "dashboard" && (
         <>
@@ -204,7 +211,6 @@ console.log({auth})
           />
           <Configurator />
           {configsButton}
-
         </>
       )}
       {layout === "vr" && <Configurator />}

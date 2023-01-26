@@ -16,9 +16,9 @@ Coded by www.creative-tim.com
 import { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate  } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 // react-router-dom components
 import { Link } from "react-router-dom";
-
 // @mui material components
 import Card from "@mui/material/Card";
 import Switch from "@mui/material/Switch";
@@ -46,12 +46,13 @@ import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
-
+  const { enqueueSnackbar }  = useSnackbar();
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
 
   const { auth, setAuth} = useContext(AuthContext);
   const { user, setUser} = useContext(AuthContext);
   const { token, setToken} = useContext(AuthContext);
+  const { signin } = useContext(AuthContext);
   // console.log('user: ', user)
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   // console.log({user})
@@ -62,19 +63,20 @@ function Basic() {
   }, []);
 
   const onSubmit = data => {
-    api.post('auth/local',data )
-    .then((res) => {
-      console.log({res})
-      console.log(res.data.user)
-      setAuth(true)
-      setUser(res.data.user)
-      setToken(res.data.jwt)
-     
-      navigate("dashboard")
-    })
-    .catch((err) => {
-      console.log({err})
-    })
+    // console.log({data})
+    const res = signin(data.identifier , data.password)
+
+    if(!res) {
+      enqueueSnackbar('ops! Algo deu errado, por favor, confira suas informações.',{ 
+        autoHideDuration: 4000,
+        variant: 'error',
+        anchorOrigin: {
+          horizontal: 'center',
+          vertical: 'bottom'
+        }
+      });
+    }
+   
   };
 
 

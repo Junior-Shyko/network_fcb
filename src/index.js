@@ -15,6 +15,7 @@ Coded by www.creative-tim.com
 
 import React from "react";
 import ReactDOM from "react-dom";
+import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
 import AuthProvider from "./context/AuthContext";
@@ -25,7 +26,9 @@ ReactDOM.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
       <AuthProvider>
-        <App />
+        <SnackbarProvider maxSnack={3}>
+          <App />
+        </SnackbarProvider>
       </AuthProvider>
     </MaterialUIControllerProvider>
   </BrowserRouter>,
