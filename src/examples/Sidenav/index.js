@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 
 // react-router-dom components
 import { useLocation, NavLink } from "react-router-dom";
@@ -47,11 +47,14 @@ import {
   setWhiteSidenav,
 } from "context";
 
+import {AuthContext} from "context/AuthContext";
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
+  const {signout} =  useContext(AuthContext)
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
+
 
   let textColor = "white";
 
@@ -82,6 +85,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleMiniSidenav);
   }, [dispatch, location]);
+
+
+  const clickLogout = () => {
+    signout();
+  }
+
 
   // Render all the routes from the routes.js (All the visible items on the Sidenav)
   const renderRoutes = routes.map(({ type, name, icon, title, noCollapse, key, href, route }) => {
@@ -180,19 +189,17 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         }
       />
       <List>{renderRoutes}</List>
-      {/* <MDBox p={2} mt="auto">
+      <MDBox p={2} mt="auto">
         <MDButton
-          component="a"
-          href="https://www.creative-tim.com/product/material-dashboard-pro-react"
-          target="_blank"
           rel="noreferrer"
           variant="gradient"
-          color={sidenavColor}
+          color="error"
           fullWidth
+          onClick={clickLogout}
         >
-          upgrade to pro
+          Sair &nbsp; <Icon>exit_to_app_icon</Icon>
         </MDButton>
-      </MDBox> */}
+      </MDBox>
     </SidenavRoot>
   );
 }

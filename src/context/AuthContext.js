@@ -23,9 +23,7 @@ function AuthProvider({children}) {
     }else{
       navigate("authentication/sign-in")
     }
-
    },[])
-
 
   const signin = (intentifier, password) => {
     //CREDENCIAIS PARA AUTENTICAÇÃO
@@ -43,10 +41,11 @@ function AuthProvider({children}) {
       // REDIRECIONANDO
       navigate("dashboard")
     })
-    .catch((err) => {
+    .catch((err)=> {
       console.log(err)
-    })
-    // return  validate;
+    });
+    
+    
   }
 
   const signout = () => {
@@ -54,11 +53,11 @@ function AuthProvider({children}) {
     console.log('signout auth.js')
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("token");
-    navigate("/authentication/sign-in")
+    window.location.reload();
   };
 
   return (
-    <AuthContext.Provider value={{auth, setAuth, user, setUser, token, setToken, signin}}>
+    <AuthContext.Provider value={{auth, setAuth, user, setUser, token, setToken, signin, signout}}>
         {children}
     </AuthContext.Provider>
   );

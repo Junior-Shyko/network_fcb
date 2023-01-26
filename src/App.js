@@ -111,22 +111,6 @@ export default function App() {
 
   }, [direction]);
 
-  useEffect(() => {
-
-  //   const userToken = sessionStorage.getItem("token");
-  //   const userAuth  = sessionStorage.getItem("user");
-  //   // if(userAuth) {
-  //   //   // console.log({userAuth})
-  //   //   setUser(JSON.parse(userAuth))
-  //   //   setAuth(true)
-  //   // }
-  //  console.log({userToken})
-  //  console.log({auth})
-  //  console.log({user})
-  //  console.log({userAuth})
-  }, []);
-
-
   // Setting page scroll to 0 when changing the route
   useEffect(() => {
     document.documentElement.scrollTop = 0;

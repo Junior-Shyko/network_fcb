@@ -19,6 +19,7 @@ import borders from "assets/theme/base/borders";
 
 // Material Dashboard 2 React helper functions
 import pxToRem from "assets/theme/functions/pxToRem";
+import autocomplete from "./form/autocomplete";
 
 const { white } = colors;
 const { borderRadius } = borders;
@@ -34,10 +35,12 @@ const sidenav = {
     paper: {
       width: pxToRem(250),
       backgroundColor: white.main,
-      height: `calc(100vh - ${pxToRem(32)})`,
+      // height: `calc(100vh - ${pxToRem(32)})`,
+      height: 'auto',
       margin: pxToRem(16),
       borderRadius: borderRadius.xl,
       border: "none",
+      paddingBottom: '10px'
     },
 
     paperAnchorDockedLeft: {

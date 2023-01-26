@@ -62,9 +62,10 @@ function Basic() {
     const userAuth  = sessionStorage.getItem("user");
   }, []);
 
-  const onSubmit = data => {
+  const  onSubmit = data => {
     // console.log({data})
     const res = signin(data.identifier , data.password)
+    console.log({res})
 
     if(!res) {
       enqueueSnackbar('ops! Algo deu errado, por favor, confira suas informações.',{ 
