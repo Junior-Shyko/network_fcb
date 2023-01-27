@@ -18,7 +18,7 @@ import Drawer from "@mui/material/Drawer";
 import { styled } from "@mui/material/styles";
 
 export default styled(Drawer)(({ theme, ownerState }) => {
-  console.log({theme})
+
   const { palette, boxShadows, transitions, breakpoints, functions } = theme;
   const { transparentSidenav, whiteSidenav, miniSidenav, darkMode } = ownerState;
 
@@ -30,7 +30,7 @@ export default styled(Drawer)(({ theme, ownerState }) => {
   // console.log({gradients})
   //CRIADO UM WHITE
   gradients['white'] = {
-    main: '#ed8787',
+    main: '#2e6de1',
     state: "#386ed9"
   }
   //valor de false

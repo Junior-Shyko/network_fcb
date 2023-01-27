@@ -74,7 +74,7 @@ export default function App() {
   //CONTEXTO DA AUTENTICAÇÃO
   const { auth, setAuth } = useContext(AuthContext)
   const { user, setUser, token, setToken  } = useContext(AuthContext)
-  console.log({user})
+  // console.log({user})
   // Cache for the rtl
   useMemo(() => {
     const cacheRtl = createCache({
