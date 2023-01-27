@@ -13,10 +13,9 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect, useMemo } from "react";
-
+import { useState, useEffect, useMemo, useContext } from "react";
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation} from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -46,6 +45,9 @@ import createCache from "@emotion/cache";
 // Material Dashboard 2 React routes
 import routes from "routes";
 
+// Componente custom
+import {AuthContext} from "./context/AuthContext";
+
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
@@ -69,6 +71,10 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
+  //CONTEXTO DA AUTENTICAÇÃO
+  const { auth, setAuth } = useContext(AuthContext)
+  const { user, setUser, token, setToken  } = useContext(AuthContext)
+  // console.log({user})
   // Cache for the rtl
   useMemo(() => {
     const cacheRtl = createCache({
@@ -100,13 +106,16 @@ export default function App() {
 
   // Setting the dir attribute for the body element
   useEffect(() => {
+    // setAuth(false)
     document.body.setAttribute("dir", direction);
+
   }, [direction]);
 
   // Setting page scroll to 0 when changing the route
   useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
+
   }, [pathname]);
 
   const getRoutes = (allRoutes) =>
@@ -172,7 +181,7 @@ export default function App() {
       </ThemeProvider>
     </CacheProvider>
   ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>
+    <ThemeProvider theme={darkMode ? themeDark : theme}>      
       <CssBaseline />
       {layout === "dashboard" && (
         <>
@@ -186,7 +195,6 @@ export default function App() {
           />
           <Configurator />
           {configsButton}
-
         </>
       )}
       {layout === "vr" && <Configurator />}

@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import react, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // react-router components
 import { useLocation, Link } from "react-router-dom";
@@ -28,20 +28,17 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ChurchIcon from '@mui/icons-material/Church';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
@@ -52,10 +49,9 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import ListItemIcon from '@mui/material/ListItemIcon';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+import MDButton from "components/MDButton";
 
-// Material Dashboard 2 React example components
-import Breadcrumbs from "examples/Breadcrumbs";
-import NotificationItem from "examples/Items/NotificationItem";
+import { AuthContext } from "context/AuthContext";
 
 // Custom styles for DashboardNavbar
 import {
@@ -76,7 +72,7 @@ import {
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About', 'Contact'];
-function DashboardNavbar({ absolute, light, isMini}, props) {
+function DashboardNavbar({ absolute, light, isMini }, props) {
   const { windows } = props;
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
@@ -85,12 +81,20 @@ function DashboardNavbar({ absolute, light, isMini}, props) {
   const route = useLocation().pathname.split("/").slice(1);
   const [open, setOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  //LOGOUT - AUTH
+  const { signout } = useContext(AuthContext);
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
-   
   };
 
+  const logout = () => {
+    signout();
+  }
+
+  const redirect = (slug) => {
+    console.log('redirect: ' , slug)
+  }
+   
   useEffect(() => {
     // Setting the navbar type
     if (fixedNavbar) {
@@ -122,6 +126,7 @@ function DashboardNavbar({ absolute, light, isMini}, props) {
   const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
   const handleCloseMenu = () => setOpenMenu(false);
 
+  const mobileMenuId = 'primary-search-account-menu-mobile';
   // Render the notifications menu
   const renderMenu = () => (
     <Menu
@@ -131,13 +136,21 @@ function DashboardNavbar({ absolute, light, isMini}, props) {
         vertical: "bottom",
         horizontal: "left",
       }}
+      id={mobileMenuId}
       open={Boolean(openMenu)}
       onClose={handleCloseMenu}
-      sx={{ mt: 2 }}
+    
     >
-      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
-      <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
-      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+      <MenuItem >
+          <MDButton variant="text" color="dark" size="medium">
+            <Icon fontSize="large">edit_icon</Icon>&nbsp; Editar Perfil
+          </MDButton>
+      </MenuItem>
+      <MenuItem >
+          <MDButton variant="text" color="dark" size="medium" onClick={logout}>
+            <Icon fontSize="large">exit_to_app_icon</Icon>&nbsp; Sair do sistema
+          </MDButton>
+      </MenuItem>
     </Menu>
   );
 
@@ -171,7 +184,7 @@ function DashboardNavbar({ absolute, light, isMini}, props) {
         </ListItemIcon>
         <ListItemText primary="Grupos" />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton onClick={redirect('reuniao')}>
         <ListItemIcon>
           <DraftsIcon />
         </ListItemIcon>
@@ -206,76 +219,88 @@ function DashboardNavbar({ absolute, light, isMini}, props) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-    <CssBaseline />
-    <AppBar component="nav" color="info">
-      <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-        >
-          MUI
-        </Typography>
-        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-          <Link to="/authentication/sign-in/basic">
-                <IconButton sx={navbarIconButton} size="small" disableRipple>
-                  <AccountCircleIcon color="white" fontSize="medium" />
-                </IconButton>
-              </Link>
-              <IconButton
-                size="small"
-                disableRipple
-                color="inherit"
-                sx={navbarIconButton}
-                onClick={handleConfiguratorOpen}
-              >
-                <Icon sx={iconsStyle}>settings</Icon>
+      <CssBaseline />
+      <AppBar component="nav" color="info">
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            MUI
+          </Typography>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Link to="/authentication/sign-in/basic">
+              <IconButton sx={navbarIconButton} size="small" disableRipple>
+              <NotificationsIcon color="white" fontSize="medium" />
               </IconButton>
-              <IconButton
-                size="small"
-                disableRipple
-                color="inherit"
-                sx={navbarIconButton}
-                aria-controls="notification-menu"
-                aria-haspopup="true"
-                variant="contained"
-                onClick={handleOpenMenu}
-              >
-                <NotificationsIcon color="white" fontSize="medium"/>
-              </IconButton>
-              {renderMenu()}
-        </Box>
-      </Toolbar>
-    </AppBar>
-    <Box component="nav">
-      <Drawer
-        container={container}
-        variant="temporary"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        sx={{
-          display: { xs: 'block', sm: 'none' },
-        
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth,  margin: '0rem !important' },
-        }}
-      >
-        {drawer}
-      </Drawer>
+            </Link>
+            <IconButton
+              size="small"
+              disableRipple
+              color="inherit"
+              sx={navbarIconButton}
+              onClick={handleConfiguratorOpen}
+            >
+              <Icon sx={iconsStyle}>settings</Icon>
+            </IconButton>
+            <IconButton
+              size="small"
+              disableRipple
+              color="inherit"
+              sx={navbarIconButton}
+              aria-controls="notification-menu"
+              aria-haspopup="true"
+              variant="contained"
+              onClick={handleOpenMenu}
+            >            
+              <AccountCircleIcon color="white" fontSize="medium" />
+            </IconButton>
+            {renderMenu()}
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleOpenMenu}
+              color="inherit"
+            >
+              <Icon>more_vert_icon</Icon>
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      <Box component="nav">
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, margin: '0rem !important' },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </Box>
+
     </Box>
-  
-  </Box>
   );
 }
 
