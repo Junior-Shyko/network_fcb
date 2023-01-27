@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import react, { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 // react-router components
 import { useLocation, Link } from "react-router-dom";
@@ -28,21 +28,17 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ChurchIcon from '@mui/icons-material/Church';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
@@ -54,9 +50,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
-// Material Dashboard 2 React example components
-import Breadcrumbs from "examples/Breadcrumbs";
-import NotificationItem from "examples/Items/NotificationItem";
+
+import { AuthContext } from "context/AuthContext";
 
 // Custom styles for DashboardNavbar
 import {
@@ -86,15 +81,19 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
   const route = useLocation().pathname.split("/").slice(1);
   const [open, setOpen] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  //LOGOUT - AUTH
+  const { signout } = useContext(AuthContext);
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
-
   };
 
- const teste = () => {
-  console.log('reste')
- }
+  const logout = () => {
+    signout();
+  }
+
+  const redirect = (slug) => {
+    console.log('redirect: ' , slug)
+  }
    
   useEffect(() => {
     // Setting the navbar type
@@ -143,12 +142,12 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
     
     >
       <MenuItem >
-          <MDButton variant="text" color="dark" size="medium" onClick={teste}>
+          <MDButton variant="text" color="dark" size="medium">
             <Icon fontSize="large">edit_icon</Icon>&nbsp; Editar Perfil
           </MDButton>
       </MenuItem>
       <MenuItem >
-          <MDButton variant="text" color="dark" size="medium" onClick={teste}>
+          <MDButton variant="text" color="dark" size="medium" onClick={logout}>
             <Icon fontSize="large">exit_to_app_icon</Icon>&nbsp; Sair do sistema
           </MDButton>
       </MenuItem>
@@ -185,7 +184,7 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
         </ListItemIcon>
         <ListItemText primary="Grupos" />
       </ListItemButton>
-      <ListItemButton>
+      <ListItemButton onClick={redirect('reuniao')}>
         <ListItemIcon>
           <DraftsIcon />
         </ListItemIcon>

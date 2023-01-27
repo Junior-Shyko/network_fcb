@@ -39,7 +39,6 @@ import MDButton from "components/MDButton";
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 import { AuthContext } from "context/AuthContext";
-import { api } from "services/Api";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 
@@ -65,7 +64,7 @@ function Basic() {
   const  onSubmit = data => {
     // console.log({data})
     const res = signin(data.identifier , data.password)
-    console.log({res})
+    // console.log({res})
 
     if(!res) {
       enqueueSnackbar('ops! Algo deu errado, por favor, confira suas informações.',{ 
