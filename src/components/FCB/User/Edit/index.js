@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+
 
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
@@ -23,23 +23,26 @@ import CompEditUser from "./compEditUser";
 
 function EditUser() {
   let { id } = useParams();
-  const [user, setUser] = useState();
-
-  const getUser = () => {
-    fetch('http://localhost:1337/api/users/' + id + '?populate=*')
-      .then(response => response.json())
-      .then(data => {
-        setUser(data)
-      })
-      .catch((error) => {
-
-      })
-
-  }
+  const [user, setUser] = useState(); 
 
   useEffect(() => {
+    const getUser = async () => {
+      await fetch('http://localhost:1337/api/users/' + id + '?populate=*')
+        .then(response => response.json())
+        .then(data => {
+          setUser(data)
+        })
+        .catch((error) => {
+  
+        })  
+    }
     getUser()
   }, [])
+
+  const preData = {
+    firstName: 'User'
+  }
+
 
   const styleField = {
     marginBottom: '5px',
@@ -87,14 +90,9 @@ function EditUser() {
               </MDBox>
             </MDBox>
             <MDBox p={2} mx={3} display="block">
-              <CompEditUser label="Nome" name="username" value={user?.username} />
-              <CompEditUser label="Conhecido como..." name="alias_users" value={user?.alias_users} />
-              <CompEditUser label="E-mail" name="email" value={user?.email} />
-              <CompEditUser label="Logradouro" name="address" value={user?.address} />
-              <CompEditUser label="Número" name="number" value={user?.number} />
-              <CompEditUser label="Complemento" name="complement" value={user?.complement} />
-              <CompEditUser label="Cidade" name="district" value={user?.district} />
-              <CompEditUser label="Estado" name="state" value={user?.state} />
+              {user ? 
+              <CompEditUser preData={user} /> : <div>Aguarde...</div>
+              }
             </MDBox>
           </Card>
           <Divider />
@@ -111,9 +109,10 @@ function EditUser() {
               </MDBox>
             </MDBox>
             <MDBox p={2} mx={3} display="block">
-              <CompEditUser label="Telefone" name="phone" value={user?.phone} />
+              {/* <CompEditUser label="Telefone" name="phone" value={user?.phone} />
               <CompEditUser label="E-mail" name="email" value={user?.email} />
-              <CompEditUser label="Senha" name="password" value={null} />
+              <CompEditUser label="Senha" name="password" value={null} /> */}
+              <label>Aui</label>
             </MDBox>
           </Card>
           <Divider />
