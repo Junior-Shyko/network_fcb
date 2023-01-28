@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
 import Card from "@mui/material/Card";
-import TextField from '@mui/material/TextField';
-import Input from '@mui/material/Input';
 import Divider from '@mui/material/Divider';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -89,39 +87,15 @@ function EditUser() {
                 </MDTypography>
               </MDBox>
             </MDBox>
-            <MDBox p={2} mx={3} display="block">
+            
               {user ? 
               <CompEditUser preData={user} /> : <div>Aguarde...</div>
               }
-            </MDBox>
+           
           </Card>
-          <Divider />
 
-          <Card component="li" display="flex" alignItems="center" py={1} mb={1}>
-            <MDBox item p={1} display="flex">
-              <MDBox mr={2}>
-                <Icon fontSize="large">perm_contact_calendar_icon</Icon>
-              </MDBox>
-              <MDBox display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center">
-                <MDTypography variant="button" fontWeight="medium">
-                  Dados de contato
-                </MDTypography>
-              </MDBox>
-            </MDBox>
-            <MDBox p={2} mx={3} display="block">
-              {/* <CompEditUser label="Telefone" name="phone" value={user?.phone} />
-              <CompEditUser label="E-mail" name="email" value={user?.email} />
-              <CompEditUser label="Senha" name="password" value={null} /> */}
-              <label>Aui</label>
-            </MDBox>
-          </Card>
-          <Divider />
-          <Card component="li" display="flex" alignItems="center" py={1} mb={1}>
-            <MDButton variant="gradient" color="info">
-              Salvar&nbsp;
-              <Icon fontSize="medium">save</Icon>
-            </MDButton>
-          </Card>
+          
+         
         </Grid>
         <Grid item xs={12} md={6} xl={6}>
           <Card component="li" display="flex" alignItems="center" py={1} mb={1}>
