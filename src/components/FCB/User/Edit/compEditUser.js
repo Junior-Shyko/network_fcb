@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import TextField from '@mui/material/TextField';
 import Card from "@mui/material/Card";
@@ -5,7 +6,8 @@ import Icon from "@mui/material/Icon";
 import Divider from '@mui/material/Divider';
 import Radio from '@mui/material/Radio';
 import Select from '@mui/material/Select';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import NativeSelect from '@mui/material/NativeSelect';
+import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,51 +16,49 @@ import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 
-const options = [
-    {
-      label: "Dropdown Option 1",
-      value: "1",
-    },
-    {
-      label: "Dropdown Option 2",
-      value: "2",
-    },
-  ];
-
 
 function CompEditUser(props) {
-    console.log(props.preData   )
+    // console.log(props.preData)
+    // console.log('props.preData.batized', props.preData.batized)
+    const [ batized, setBatized ] = useState(props.preData.batized)
+
+
     const { control, handleSubmit } = useForm({
         defaultValues: props.preData
     });
 
-    const generateSelectOptions = () => {
-        return options.map((option) => {
-          return (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          );
-        });
+    const handleChange = (event) => {
+        setBatized(event.target.value);
       };
       
+    useEffect(() =>{
+        if(batized) {
+            setBatized(1)
+        }else{
+            setBatized(0)
+        }
+    }, [])  
+
     const onSubmit = data => {
+        delete data['batized'];
         console.log(data)
-        const requestOptions = {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data })
-        };
-        fetch('http://localhost:1337/api/users/' + props.preData.id, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                console.log({ data })
-            });
+        data['batized'] = batized;
+        // const requestOptions = {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ data })
+        // };
+        // fetch('http://localhost:1337/api/users/' + props.preData.id, requestOptions)
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log({ data })
+        //     });
     };
 
     return (
         <MDBox>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            
+                <form onSubmit={handleSubmit(onSubmit)}>
                 <MDBox p={2} mx={3} display="block">
                     <Controller
                         name="username"
@@ -100,19 +100,31 @@ function CompEditUser(props) {
                         control={control}
                         render={({ field }) => <TextField {...field} label="Estado" variant="standard" fullWidth />}
                     />
+                    <FormControl sx={{ mt: 1}} fullWidth>
+                    <InputLabel id="id-label-batized" sx={{marginLeft: '-12px'}}>Batizado</InputLabel>
                     <Controller
                         name="batized"
-                        control={control}
-                        render={({ field }) => <TextField {...field} label="Batizado" variant="standard" fullWidth />}
+                        control={control}               
+                        render={({ field }) => <Select
+                                                labelId="id-label-batized"
+                                                {...field}
+                                                label="Batizado"
+                                                id="id-select-batized"
+                                                variant="standard"
+                                                value={1}
+                                                // defaultValue={1}
+                                                onChange={handleChange}
+                                               
+                                                fullWidth >
+                                                    <MenuItem value={0}>Não</MenuItem>
+                                                    <MenuItem value={1}>Sim</MenuItem>
+                                                </Select>}
                     />
-                    <Controller
-                        name="checkbox"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => <Radio {...field} />}
-                    />
-
+                    </FormControl>
                     
+
+                  
+                   
                 </MDBox>
                 <MDBox item p={1} display="flex">
                     <MDBox mr={2}>
@@ -143,12 +155,12 @@ function CompEditUser(props) {
                 </MDBox>
                 <Divider />
                 <Card component="li" display="flex" alignItems="center" py={1} mb={1}>
-                    <MDButton variant="gradient" color="info" type="submit">
-                        Salvar&nbsp;
-                        <Icon fontSize="medium">save</Icon>
-                    </MDButton>
+                <MDButton variant="gradient" color="info" type="submit">
+                Salvar&nbsp;
+                <Icon fontSize="medium">save</Icon>
+            </MDButton>
                 </Card>
-            </form>
+                </form>
         </MDBox>
     )
 }
