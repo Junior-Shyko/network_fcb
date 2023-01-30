@@ -5,9 +5,10 @@ import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import Divider from '@mui/material/Divider';
 import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 import Select from '@mui/material/Select';
-import NativeSelect from '@mui/material/NativeSelect';
-import InputLabel from '@mui/material/InputLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from "@mui/material/Grid";
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,12 +17,21 @@ import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 
+import optionsMaritalStatus from "components/FCB/Util/optionsMaritalStatus";
+import {maritalStatus} from "components/FCB/Util/optionsMaritalStatus";
+
 
 function CompEditUser(props) {
     // console.log(props.preData)
     // console.log('props.preData.batized', props.preData.batized)
     const [ batized, setBatized ] = useState(props.preData.batized)
+    const [ infoBatized, setInfoBatized ] = useState('');
+    const [ infoMarital, setInfoMarital ] = useState('Não');
+    const [ maritalStatus, setMaritalStatus ] = useState('');
 
+    const [ alterBatized, setAlterBatized ] = useState(false);
+    const [ alterMarital, setAlterMarital ] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const { control, handleSubmit } = useForm({
         defaultValues: props.preData
@@ -31,18 +41,44 @@ function CompEditUser(props) {
         setBatized(event.target.value);
       };
       
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason !== 'backdropClick') {
+            setOpen(false);
+        }
+    };
+
+    const handleMaritalStatus = (event) => {
+        // setMaritalStatus(event)
+        // console.log(event.target.value)
+    }
+    const showBatized = () => {
+        setAlterBatized(true)
+    }
+    const showMarital = () => {
+        setAlterMarital(true)
+    }
     useEffect(() =>{
         if(batized) {
-            setBatized(1)
+            setInfoBatized('Sim')
         }else{
-            setBatized(0)
+            setInfoBatized('Não')
         }
+        if(infoMarital)
+        {
+            setInfoMarital('Sim')
+        }
+          
+    console.log({maritalStatus})
     }, [])  
 
     const onSubmit = data => {
-        delete data['batized'];
+        // delete data['batized'];
         console.log(data)
-        data['batized'] = batized;
+        // data['batized'] = batized;
         // const requestOptions = {
         //     method: 'PUT',
         //     headers: { 'Content-Type': 'application/json' },
@@ -100,31 +136,72 @@ function CompEditUser(props) {
                         control={control}
                         render={({ field }) => <TextField {...field} label="Estado" variant="standard" fullWidth />}
                     />
-                    <FormControl sx={{ mt: 1}} fullWidth>
-                    <InputLabel id="id-label-batized" sx={{marginLeft: '-12px'}}>Batizado</InputLabel>
                     <Controller
-                        name="batized"
-                        control={control}               
-                        render={({ field }) => <Select
-                                                labelId="id-label-batized"
-                                                {...field}
-                                                label="Batizado"
-                                                id="id-select-batized"
-                                                variant="standard"
-                                                value={1}
-                                                // defaultValue={1}
-                                                onChange={handleChange}
-                                               
-                                                fullWidth >
-                                                    <MenuItem value={0}>Não</MenuItem>
-                                                    <MenuItem value={1}>Sim</MenuItem>
-                                                </Select>}
+                        name="birthday"
+                        control={control}
+                        render={({ field }) => <TextField {...field} label="Aniversário" variant="standard" fullWidth />}
                     />
+                    <FormControl>
+                        <Grid container>
+                            <MDTypography variant="caption" color="text">
+                            <MDTypography id="demo-row-radio-buttons-group-label" variant="caption" textTransform="capitalize">
+                            Batizado: <strong> {infoBatized}</strong>
+                            </MDTypography>&nbsp;&nbsp;&nbsp;
+                            <MDButton variant="text" color="info" size="small" onClick={showBatized}>Alterar</MDButton>
+                            </MDTypography>
+                        </Grid>
+                        <MDBox>
+                        {alterBatized && (
+                            <Controller
+                            name="batized"
+                            control={control}
+                            render={({ field }) => (
+                                <RadioGroup
+                                    label="Batizado"
+                                    row
+                                    aria-labelledby="demo-row-radio-buttons-group-label"
+                                    name="row-radio-buttons-group"
+                                >
+                                <TextField {...field} type="radio" name="batized" value={false} variant="standard"  /> 
+                                <MDTypography  variant="button" ml={1} mr={2}>Não</MDTypography>
+                                <TextField {...field} type="radio" name="batized" value={true}  variant="standard"  />
+                                <MDTypography  variant="button" ml={1} mr={2}>Sim</MDTypography>                             
+                            </RadioGroup>
+                            ) }
+                        />
+                        )}
+                        </MDBox>
                     </FormControl>
-                    
-
-                  
-                   
+                    <FormControl>
+                        <Grid container>
+                            <MDTypography variant="caption" color="text">
+                            <MDTypography id="demo-row-radio-buttons-group-label" variant="caption" textTransform="capitalize">
+                            Casado(a): <strong> {infoMarital}</strong>
+                            </MDTypography>&nbsp;&nbsp;&nbsp;
+                            <MDButton variant="text" color="info" size="small" onClick={showMarital}>Alterar</MDButton>
+                            </MDTypography>
+                        </Grid>
+                        <MDBox>
+                        {alterMarital && (
+                            <Controller
+                            name="marital_status"
+                            control={control}
+                            render={({ field }) => (
+                                <TextField 
+                                    select 
+                                    {...field}
+                                    label="Selecione o estado civil"                                  
+                                    variant="standard"
+                                    fullWidth
+                                    onChange={handleMaritalStatus}
+                                >
+                                    {maritalStatus()}
+                                </TextField>
+                            ) }
+                        />
+                        )}
+                        </MDBox>
+                    </FormControl>
                 </MDBox>
                 <MDBox item p={1} display="flex">
                     <MDBox mr={2}>
