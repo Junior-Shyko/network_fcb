@@ -299,7 +299,6 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
           {drawer}
         </Drawer>
       </Box>
-
     </Box>
   );
 }

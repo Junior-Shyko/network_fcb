@@ -16,7 +16,8 @@ Coded by www.creative-tim.com
 import { useState, useEffect, useMemo, useContext } from "react";
 // react-router components
 import { Routes, Route, Navigate, useLocation} from "react-router-dom";
-
+// COMPONENTE CUSTOM
+import EditUser  from "components/FCB/User/Edit";
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -201,7 +202,7 @@ export default function App() {
       <Routes>
         {getRoutes(routes)}
         <Route path="*" element={<Navigate to="/dashboard" />} />
-        <Route path="usuario/editar/:id" element={<Navigate to="/dashboard" />} />
+        <Route path="usuario/editar/:id" element={<EditUser />} />
       </Routes>
     </ThemeProvider>
   );
