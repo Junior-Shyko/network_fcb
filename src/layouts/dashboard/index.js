@@ -52,9 +52,7 @@ function Dashboard() {
         </Grid>
         <MDBox>
           <Grid container spacing={3}>
-            <ContentPost />
-            <ContentPost />
-            <ContentPost />
+            <ContentPost />          
           </Grid>
         </MDBox>
         <MDBox>
