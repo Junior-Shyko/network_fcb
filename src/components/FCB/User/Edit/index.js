@@ -1,12 +1,13 @@
 
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate  } from "react-router-dom";
 
 
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
 import Card from "@mui/material/Card";
 import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -22,6 +23,7 @@ import CompEditUser from "./compEditUser";
 function EditUser() {
   let { id } = useParams();
   const [user, setUser] = useState(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getUser = async () => {
@@ -49,9 +51,22 @@ function EditUser() {
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <Card sx={{ marginTop: '60px', marginBottom: '10px' }}>
+      <MDBox color="white"
+  bgColor="info"
+  variant="gradient"
+  borderRadius="lg"
+  shadow="lg"
+  opacity={1}
+  mb={1}
+  sx={{ marginTop: '60px'}}
+  >
+<IconButton aria-label="voltar" size="small">
+              <Icon fontSize="large" onClick={() => navigate(-1)} sx={{color: "#fff"}}>arrow_back</Icon> 
+            </IconButton>
+      </MDBox>
+       <Card sx={{marginBottom: '10px' }}>       
         <Grid container spacing={3} alignItems="center">
-          <Grid item xs={4} md={1} >
+          <Grid item xs={4} md={1}>          
             <MDAvatar src={burceMars} alt="profile-image" size="xl" shadow="sm" sx={{ margin: 1 }} />
           </Grid>
           <Grid item xs={8} md={5} >
