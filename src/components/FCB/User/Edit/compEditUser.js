@@ -62,16 +62,24 @@ function CompEditUser(props) {
         .then((res) => {
             console.log({res})
             enqueueSnackbar('Sucesso! Registro alterado',{ 
-                autoHideDuration: 4000,
+                autoHideDuration: 2000,
                 variant: 'success',
                 anchorOrigin: {
                   horizontal: 'center',
                   vertical: 'bottom'
                 }
-              });
+            });
         })
         .catch((err) => {
             console.log({err})
+            enqueueSnackbar('Ops! Ocorreu um erro inesperado',{ 
+                autoHideDuration: 2000,
+                variant: 'error',
+                anchorOrigin: {
+                  horizontal: 'center',
+                  vertical: 'bottom'
+                }
+            });
         })
 
     };
