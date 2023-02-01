@@ -92,7 +92,7 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
   }
 
   const redirect = (slug) => {
-    console.log('redirect: ' , slug)
+    // console.log('redirect: ' , slug)
   }
    
   useEffect(() => {

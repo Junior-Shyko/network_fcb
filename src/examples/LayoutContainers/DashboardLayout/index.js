@@ -35,7 +35,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import ApartmentIcon from '@mui/icons-material/Apartment';
 
-import SideBarRight from "./../../Sidenav/SideBarRight";
+// import SideBarRight from "./../../Sidenav/SideBarRight";
 import MenuProfile from "layouts/dashboard/components/MenuProfile";
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -47,8 +47,19 @@ function DashboardLayout({ children }) {
   }, [pathname]);
 
   return (
-    <MDBox>
-      
+    <MDBox sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+      p: 3,
+      position: "relative",
+
+      [breakpoints.up("xl")]: {
+        marginLeft: miniSidenav ? pxToRem(120) : pxToRem(274),
+        transition: transitions.create(["margin-left", "margin-right"], {
+          easing: transitions.easing.easeInOut,
+          duration: transitions.duration.standard,
+        }),
+      },
+    })}
+  >
       {/* <MDBox m={1}  sx={{ flexGrow: 1 }}>
         <AppBar position="fixed" color="info" variant="gradient">
           <Toolbar>            
@@ -69,42 +80,8 @@ function DashboardLayout({ children }) {
           </Toolbar>
         </AppBar>
       </MDBox> */}
-      <Grid container spacing={1}>
-        <Grid item xs={12} md={12} lg={10}>
-          <MDBox
-            sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-              p: 3,
-              position: "relative",
-              [breakpoints.up("xl")]: {
-                marginLeft: miniSidenav ? pxToRem(120) : pxToRem(274),
-                transition: transitions.create(["margin-left", "margin-right"], {
-                  easing: transitions.easing.easeInOut,
-                  duration: transitions.duration.standard,
-                }),
-              },
-            })}
-          >
-            {children}
-          </MDBox>
-        </Grid>
-        <Grid item xs={12} md={12} lg={2}>
-          <MDBox
-            sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
-              [breakpoints.up("xl")]: {
-                marginLeft: miniSidenav ? pxToRem(120) : pxToRem(30),
-                marginTop: 1,         
-                transition: transitions.create(["margin-left", "margin-right"], {
-                  easing: transitions.easing.easeInOut,
-                  duration: transitions.duration.standard,
-                }),
-              },
-            })}
-          >
-           <SideBarRight />
-          </MDBox>
-        </Grid>
-      </Grid>
-    
+     
+      {children}
     
     </MDBox>
   );
