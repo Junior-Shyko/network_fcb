@@ -11,19 +11,22 @@ import { api } from "services/Api";
 
 export default function ContentPost() {
     const [post, setPost] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
+        const perPage = 5;
+        console.log('currentPage ', currentPage)
         const getPost = async () => {
-            await api.get('posts?populate=users_permissions_user,file&sort[0]=id:DESC&pagination[page]=1&pagination[pageSize]=2')
+            await api.get(`posts?populate=users_permissions_user,file&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
                 .then((res) => {
                     console.log(res.data)
                     //POSTVALUE PARA FORMAR UM ARRAY COM OS DADOS QUE PRECISA
                     const postValue = [];
                     //PERCORRENDO TODO O ARRAY PARA MONTAR UM OUTRO
                     Object.entries(res.data.data).map(([keyRes, valRes], i) => (
-                        (valRes.attributes.file.data.attributes.url !== '' && (
-                            console.log(valRes.attributes.users_permissions_user.data.attributes.username)
-                        )),
+                        // (valRes.attributes.file.data.attributes.url !== '' && (
+                        //     console.log(valRes.attributes.users_permissions_user.data.attributes.username)
+                        // )),
                         postValue.push(
                             {
                                 name: valRes.attributes.users_permissions_user.data.attributes['alias_users'],
@@ -31,30 +34,8 @@ export default function ContentPost() {
                                 datePost: valRes.attributes.createdAt,
                                 file: valRes.attributes.file.data.attributes.url
                             }
-                        )
-                        //PERCORRENDO SOMENTE USUARIO PARA PEGAR O NOME DO USUARIO
-                        // Object.entries(valRes).map(([keyAttr, valAttr], i) => (
-                            
-                        //     Object.entries(valAttr.attributes.users_permissions_user.data).map(([keyUser, valUser], i) => (
-                        //         console.log(valRes.content + ' - '+ valUser.alias_users)
-                        //     ))
-                        // ))
-                        
-                        // Object.entries(el.attributes.users_permissions_user.data.attributes).map(([key, val], i) => (
-                        //     //CONDIÇÃO PARA PREENCHER SOMENTE O NOME DO USUÁRIO
-                        //     Object.entries(el.attributes.file.data.attributes).map(([keyFile, valFile], i) => (
-                        //         (key == 'alias_users' && keyFile == 'url' && postValue.push(                                    
-                        //             {
-                        //                 name: el.attributes.users_permissions_user.data.attributes['alias_users'],
-                        //                 content: el.attributes.content,
-                        //                 datePost: el.attributes.createdAt,
-                        //                 file: valFile
-                        //             }
-                        //         ))
-                        //     ))
-                        // ))     
+                        )                       
                     ));
-                    // console.log({postValue})
                     setPost(postValue)
                 })
                 .catch((err) => {
@@ -62,16 +43,40 @@ export default function ContentPost() {
                 })
         }
         getPost();
-    }, [])
+    }, [currentPage])
 
+    useEffect(() => {
+        const intersectionObserver = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.isIntersecting)) {
+            console.log('Sentinela appears!', currentPage + 1)
+            setCurrentPage((currentValue) => currentValue + 1);
+          }         
+        })
+        intersectionObserver.observe(document.querySelector('#sentinela'));
+        return () => intersectionObserver.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const intersectionObserverBack = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.isIntersecting)) {
+            console.log('Sentinela Top!', currentPage - 1)
+            setCurrentPage((currentValue) => currentValue - 1);
+          }         
+        })
+        intersectionObserverBack.observe(document.querySelector('#sentinelaTop'));
+        return () => intersectionObserverBack.connect();
+    }, []);
 
     return (
         <Grid item xs={12} md={12} lg={12}>
-            <MDBox mb={0.5}>
-                {Object.entries(post).map(([key, val], i) => (
-                    // console.log(val)
-                    <PostContent key={i} user={val.name} content={val.content} dtPost={val.datePost} file={val.file} />
-                ))}
+            <MDBox id="sentinelaTop"></MDBox>
+            <MDBox mb={0.5}>                
+                {post.length > 0 ? (
+                    Object.entries(post).map(([key, val], i) => (
+                        // console.log(val)
+                        <PostContent key={i} user={val.name} content={val.content} dtPost={val.datePost} file={val.file} />
+                    ))
+                ): null}
                 <MDBox id="sentinela"></MDBox>
             </MDBox>
         </Grid>

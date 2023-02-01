@@ -18,14 +18,13 @@ import MDBox from "components/MDBox";
 import { urlBaseApiUpload } from "services/Api";
 
 function PostContent(props) {
-  console.log({ props });
+//   console.log({ props });
   return (
     <Card sx={{ marginTop: "8px" }}>
       <CardMedia
         component="img"
-        image={urlBaseApiUpload + props.file}
-        alt="Paella dish"
-      />
+        image={urlBaseApiUpload + props?.file}
+    />
       <CardContent>
         <MDBox sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}>
           <AccountCircleIcon />
