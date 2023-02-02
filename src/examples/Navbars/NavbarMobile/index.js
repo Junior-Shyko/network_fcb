@@ -14,6 +14,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import MDAvatar from "components/MDAvatar";
+import Logo from "assets/images/boaz-logo.png";
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About', 'Contact'];
@@ -29,9 +31,9 @@ function DrawerAppBar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+      <Logo />
       </Typography>
-      <Divider />
+        <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
@@ -65,7 +67,7 @@ function DrawerAppBar(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            <MDAvatar src={Logo} alt="profile-image" size="lg" shadow="sm" sx={{ margin: 1 }} />
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (

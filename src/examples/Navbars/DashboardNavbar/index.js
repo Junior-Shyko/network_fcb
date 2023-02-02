@@ -23,6 +23,7 @@ import PropTypes from "prop-types";
 
 // @material-ui core components
 import AppBar from "@mui/material/AppBar";
+import Avatar from '@mui/material/Avatar';
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -48,7 +49,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
 import ListItemIcon from '@mui/material/ListItemIcon';
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDAvatar from "components/MDAvatar";
 import MDButton from "components/MDButton";
 
 import { AuthContext } from "context/AuthContext";
@@ -69,6 +70,8 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
+
+import Logo from "assets/images/boaz-logo.png";
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About', 'Contact'];
@@ -220,7 +223,7 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" color="info">
+      <AppBar component="nav" color="white">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -236,7 +239,9 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+           
+           {/* <Avatar alt="Boaz Social" src="/assets/images/boaz-logo.png" /> */}
+           <MDAvatar src={Logo} alt="profile-image" size="lg" shadow="sm" sx={{ margin: 1 }} />
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Link to="/authentication/sign-in/basic">

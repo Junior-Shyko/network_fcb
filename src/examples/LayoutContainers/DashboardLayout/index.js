@@ -27,16 +27,6 @@ import MDBox from "components/MDBox";
 import { useMaterialUIController, setLayout } from "context";
 
 // Componente Material Ui
-import AppBar from "@mui/material/AppBar";
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import ApartmentIcon from '@mui/icons-material/Apartment';
-
-// import SideBarRight from "./../../Sidenav/SideBarRight";
-import MenuProfile from "layouts/dashboard/components/MenuProfile";
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav } = controller;
