@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const urlBaseApi = process.env.REACT_APP_API_BASE_URL;
+export const urlBaseApiUpload = process.env.REACT_APP_API_BASE_URL_UPLOAD;
 console.log({urlBaseApi})
 export const urlBase = process.env.REACT_APP_BASE_URL;
 console.log({urlBase})
