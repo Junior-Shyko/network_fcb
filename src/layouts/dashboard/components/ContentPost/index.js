@@ -1,10 +1,8 @@
 import react, { useEffect, useState } from "react";
 // @mui material components
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
 import PostContent from "./Post";
 //custom
 import { api } from "services/Api";
@@ -14,29 +12,37 @@ export default function ContentPost() {
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        const perPage = 5;
+        const perPage = 2;
         console.log('currentPage ', currentPage)
         const getPost = async () => {
-            await api.get(`posts?populate=users_permissions_user,file&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
+            // await api.get(`posts?populate=users_permissions_user,file&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
+            await api.get(`posts?populate[users_permissions_user][populate]=institutions&populate[file][populate]&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
                 .then((res) => {
                     console.log(res.data)
                     //POSTVALUE PARA FORMAR UM ARRAY COM OS DADOS QUE PRECISA
                     const postValue = [];
                     //PERCORRENDO TODO O ARRAY PARA MONTAR UM OUTRO
                     Object.entries(res.data.data).map(([keyRes, valRes], i) => (
+                        console.log(valRes.attributes.users_permissions_user.data.attributes.institutions.data),
+                        Object.entries(valRes.attributes.users_permissions_user.data.attributes.institutions.data).map(([keyRes, valinst], i) => (
+                            // console.log(valinst.attributes.name)
+                             postValue.push(
+                                {
+                                    name: valRes.attributes.users_permissions_user.data.attributes['alias_users'],
+                                    content: valRes.attributes.content,
+                                    datePost: valRes.attributes.createdAt,
+                                    file: valRes.attributes.file.data.attributes.url,
+                                    institutions: valinst.attributes.name
+                                }
+                            )     
+                        ))
                         // (valRes.attributes.file.data.attributes.url !== '' && (
                         //     console.log(valRes.attributes.users_permissions_user.data.attributes.username)
                         // )),
-                        postValue.push(
-                            {
-                                name: valRes.attributes.users_permissions_user.data.attributes['alias_users'],
-                                content: valRes.attributes.content,
-                                datePost: valRes.attributes.createdAt,
-                                file: valRes.attributes.file.data.attributes.url
-                            }
-                        )                       
+                                  
                     ));
-                    setPost(postValue)
+                    //PEGANDO OS DADOS ATUAIS E INSETINDO NOVOS DADOS
+                    setPost((prevPosts) => [...prevPosts, ...postValue])
                 })
                 .catch((err) => {
                     console.log({ err })
@@ -56,16 +62,18 @@ export default function ContentPost() {
         return () => intersectionObserver.disconnect();
     }, []);
 
-    useEffect(() => {
-        const intersectionObserverBack = new IntersectionObserver(entries => {
-          if (entries.some(entry => entry.isIntersecting)) {
-            console.log('Sentinela Top!', currentPage - 1)
-            setCurrentPage((currentValue) => currentValue - 1);
-          }         
-        })
-        intersectionObserverBack.observe(document.querySelector('#sentinelaTop'));
-        return () => intersectionObserverBack.connect();
-    }, []);
+    // useEffect(() => {
+    //     const intersectionObserverBack = new IntersectionObserver(entries => {
+    //       if (entries.some(entry => entry.isIntersecting)) {
+    //         console.log('Sentinela Top!', currentPage)
+    //         if(currentPage >= 1) {
+    //             setCurrentPage((currentValue) => currentValue - 1);
+    //         }
+    //       }         
+    //     })
+    //     intersectionObserverBack.observe(document.querySelector('#sentinelaTop'));
+    //     return () => intersectionObserverBack.connect();
+    // }, []);
 
     return (
         <Grid item xs={12} md={12} lg={12}>
@@ -74,7 +82,14 @@ export default function ContentPost() {
                 {post.length > 0 ? (
                     Object.entries(post).map(([key, val], i) => (
                         // console.log(val)
-                        <PostContent key={i} user={val.name} content={val.content} dtPost={val.datePost} file={val.file} />
+                        <PostContent
+                            key={i}
+                            user={val.name}
+                            content={val.content}
+                            dtPost={val.datePost}
+                            file={val.file}
+                            insti={val.institutions}
+                        />
                     ))
                 ): null}
                 <MDBox id="sentinela"></MDBox>
