@@ -50,7 +50,7 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
                 <Grid item xs={12} md={12} lg={12}>
-                  <FormPost />
+                  {/* AQUI HAVIA COMPONENT DE POST */}
                 </Grid>
               </MDBox>
             </MDBox>
@@ -58,9 +58,10 @@ function Dashboard() {
         </Grid>
         <MDBox>
           <Grid container spacing={3}>
-            <Grid item xs={9} md={6} lg={0.5}>
+            <Grid item xs={12} md={6} lg={0.5}>
             </Grid>
             <Grid item xs={12} md={6} lg={8.5}>
+            <FormPost />
             <ContentPost /> 
             </Grid>
 

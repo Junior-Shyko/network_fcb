@@ -19,11 +19,14 @@ import { urlBaseApiUpload } from "services/Api";
 
 function PostContent(props) {
 //   console.log({ props });
+// console.log({urlBaseApiUpload})
   return (
     <Card sx={{ marginTop: "8px" }}>
       <CardMedia
         component="img"
+        height="300"
         image={urlBaseApiUpload + props?.file}
+        sx={{ objectFit: "contain" }}
     />
       <CardContent>
         <MDBox sx={{ p: "2px 4px", display: "flex", alignItems: "center" }}>
