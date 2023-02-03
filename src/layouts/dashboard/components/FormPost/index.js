@@ -1,40 +1,42 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SendIcon from '@mui/icons-material/Send';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import ShareIcon from '@mui/icons-material/Share';
+import MDBox from 'components/MDBox';
+import MDAvatar from 'components/MDAvatar';
+import burceMars from "assets/images/bruce-mars.jpg";
 
-const style = {
-    width: '100%',
-    maxWidth: 360,
-    bgcolor: 'background.paper',
-  };
-  
 export default function FormPost() {
   return (
-   
-    <Paper 
-      component="form"
-      sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}
-    >
-      <IconButton sx={{ p: '10px' }} aria-label="menu">
-        <AccountCircleIcon fontSize="large"/>
-      </IconButton>
-      <InputBase
-        sx={{ ml: 1, flex: 1 }}
-        placeholder="Publique algo"
-        inputProps={{ 'aria-label': 'search google maps' }}
-      />
-     
-      <Divider sx={{ height: 28, m: 1, color: 'black' }} orientation="vertical" />
-      <IconButton color="info" sx={{ p: '10px' }} aria-label="directions">
-        <SendIcon />
-      </IconButton>
-         
-    </Paper >
-   
-   
+    <Card>
+      <MDBox component="li" display="flex" alignItems="center" py={1}>
+        <MDBox ml={1}>
+          <MDAvatar src={burceMars} alt="something here" shadow="md" />
+        </MDBox>
+        <MDBox display="flex" flexDirection="column" alignItems="flex-start" justifyContent="center">
+          <InputBase
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Publique algo"
+          />
+        </MDBox>
+        <MDBox ml="auto">
+          <IconButton aria-label="directions">
+            <SendIcon />
+          </IconButton>
+        </MDBox>
+      </MDBox>
+      <CardActions disableSpacing>
+        <IconButton aria-label="Anexar Imagem">
+          <AttachFileIcon />
+        </IconButton>
+        <IconButton aria-label="share">
+          <ShareIcon />
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 }
