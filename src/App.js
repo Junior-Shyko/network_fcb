@@ -47,7 +47,6 @@ import createCache from "@emotion/cache";
 import routes from "routes";
 
 // Componente custom
-import {AuthContext} from "./context/AuthContext";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -72,9 +71,6 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
-  //CONTEXTO DA AUTENTICAÇÃO
-  const { auth, setAuth } = useContext(AuthContext)
-  const { user, setUser, token, setToken  } = useContext(AuthContext)
   // console.log({user})
   // Cache for the rtl
   useMemo(() => {
