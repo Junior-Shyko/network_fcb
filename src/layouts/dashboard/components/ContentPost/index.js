@@ -13,17 +13,15 @@ export default function ContentPost() {
 
     useEffect(() => {
         const perPage = 2;
-        console.log('currentPage ', currentPage)
+
         const getPost = async () => {
-            // await api.get(`posts?populate=users_permissions_user,file&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
             await api.get(`posts?populate[users_permissions_user][populate]=institutions&populate[file][populate]&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
                 .then((res) => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     //POSTVALUE PARA FORMAR UM ARRAY COM OS DADOS QUE PRECISA
                     const postValue = [];
                     //PERCORRENDO TODO O ARRAY PARA MONTAR UM OUTRO
                     Object.entries(res.data.data).map(([keyRes, valRes], i) => (
-                        console.log(valRes.attributes.users_permissions_user.data.attributes.institutions.data),
                         Object.entries(valRes.attributes.users_permissions_user.data.attributes.institutions.data).map(([keyRes, valinst], i) => (
                             // console.log(valinst.attributes.name)
                              postValue.push(
@@ -36,10 +34,6 @@ export default function ContentPost() {
                                 }
                             )     
                         ))
-                        // (valRes.attributes.file.data.attributes.url !== '' && (
-                        //     console.log(valRes.attributes.users_permissions_user.data.attributes.username)
-                        // )),
-                                  
                     ));
                     //PEGANDO OS DADOS ATUAIS E INSETINDO NOVOS DADOS
                     setPost((prevPosts) => [...prevPosts, ...postValue])
@@ -61,19 +55,6 @@ export default function ContentPost() {
         intersectionObserver.observe(document.querySelector('#sentinela'));
         return () => intersectionObserver.disconnect();
     }, []);
-
-    // useEffect(() => {
-    //     const intersectionObserverBack = new IntersectionObserver(entries => {
-    //       if (entries.some(entry => entry.isIntersecting)) {
-    //         console.log('Sentinela Top!', currentPage)
-    //         if(currentPage >= 1) {
-    //             setCurrentPage((currentValue) => currentValue - 1);
-    //         }
-    //       }         
-    //     })
-    //     intersectionObserverBack.observe(document.querySelector('#sentinelaTop'));
-    //     return () => intersectionObserverBack.connect();
-    // }, []);
 
     return (
         <Grid item xs={12} md={12} lg={12}>

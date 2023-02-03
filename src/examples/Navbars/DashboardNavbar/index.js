@@ -237,11 +237,13 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
           <Typography
             variant="h6"
             component="div"
+            color="info"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
            
            {/* <Avatar alt="Boaz Social" src="/assets/images/boaz-logo.png" /> */}
-           <MDAvatar src={Logo} alt="profile-image" size="lg" shadow="sm" sx={{ margin: 1 }} />
+           <MDAvatar src={Logo} alt="Boaz Logo" size="lg" shadow="sm" sx={{ margin: 1 }} />
+          
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Link to="/authentication/sign-in/basic">
