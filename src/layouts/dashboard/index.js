@@ -31,6 +31,9 @@ import Typography from "@mui/material/Typography";
 
 // Data
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+// Material Dashboard 2 React example components
+import Sidenav from "examples/Sidenav";
+import Configurator from "examples/Configurator";
 
 // Dashboard components
 import FormPost from "layouts/dashboard/components/FormPost";
