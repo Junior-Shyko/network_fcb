@@ -22,7 +22,7 @@ import EditUser  from "components/FCB/User/Edit";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
-
+import Container from '@mui/material/Container';
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
@@ -152,19 +152,19 @@ export default function App() {
     </MDBox>
   );
 
-  return direction === "rtl" ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+  return (
+    <Container>
+      <ThemeProvider theme={darkMode ? themeDark : theme}>      
         <CssBaseline />
         {layout === "dashboard" && (
-          <>
+          <>  
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName="Boaz Social"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
+              onMouseLeave={handleOnMouseLeave}         
             />
             <Configurator />
             {configsButton}
@@ -174,32 +174,9 @@ export default function App() {
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="usuario/editar/:id" element={<EditUser />} />
         </Routes>
       </ThemeProvider>
-    </CacheProvider>
-  ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>      
-      <CssBaseline />
-      {layout === "dashboard" && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="Boaz Social"
-            routes={routes}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}         
-          />
-          <Configurator />
-          {configsButton}
-        </>
-      )}
-      {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-        <Route path="usuario/editar/:id" element={<EditUser />} />
-      </Routes>
-    </ThemeProvider>
+    </Container>
   );
 }
