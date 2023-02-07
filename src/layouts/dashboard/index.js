@@ -20,6 +20,7 @@ import Grid from '@mui/material/Grid';
 import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 
+import {useEffect, useState} from "react"
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
@@ -42,6 +43,17 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const [ upPosts, setUpPosts ] = useState();
+  const [ getPosts, setGetPosts ] = useState(true);
+  
+  function upGetPosts(mudanca) {
+    console.log('mudança: ', mudanca)
+    setGetPosts(mudanca)
+  }
+
+  useEffect(() => {
+    console.log({getPosts})
+  }, [])
 
   return (
       <DashboardLayout>
@@ -63,8 +75,8 @@ function Dashboard() {
               <Grid item xs={12} md={6} lg={0.5}>
               </Grid>
               <Grid item xs={12} md={6} lg={8.5}>
-              <FormPost />
-              <ContentPost /> 
+              <FormPost upGetPosts={upGetPosts} />
+              <ContentPost getPosts={getPosts} /> 
               </Grid>
 
               <Grid item xs={3} md={12} lg={3} sx={{maxHeight: 800, overflow: 'auto', borderRadius: '18px', display: { xs: "none", lg: "block" }}}>

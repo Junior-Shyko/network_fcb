@@ -29,12 +29,15 @@ function PostContent(props) {
 
   return (
     <Card sx={{ marginTop: "8px" }}>
-      <CardMedia
-        component="img"
-        height="300"
-        image={urlBaseApiUpload + props?.file}
-        sx={{ objectFit: "contain" }}
-    />
+      {props.file !== undefined && (
+          <CardMedia
+            component="img"
+            height="300"
+            image={urlBaseApiUpload + props?.file}
+            sx={{ objectFit: "contain" }}
+        />
+        )
+      }
     <CardHeader
         avatar={          
           <AccountCircleIcon fontSize="large" color="inherit"/>

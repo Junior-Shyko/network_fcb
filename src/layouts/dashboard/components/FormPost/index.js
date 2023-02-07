@@ -15,35 +15,38 @@ import MDInput from "components/MDInput";
 import { AuthContext } from "context/AuthContext";
 import { api } from 'services/Api';
 
-export default function FormPost() {
+export default function FormPost(props) {
   const [valuePost, setValuePost] = useState();
   const { user, setUser} = useContext(AuthContext);
   const { token, setToken } = useContext(AuthContext);
-  const sendPost = () => {
+  const [ envioDeDados, setEnvioDeDados] = useState(false)
+
+  const sendPost = async () => {
     // console.log({valuePost})
-    const dataPost = {
-      content: valuePost,
-      users_permissions_user: {
-        connect: [
-          {id: user.id}
-        ]
-      }
-    }
-    console.log({dataPost})
+    
     api.defaults.headers.Authorization = `Bearer ${token}`;
-    api.post('posts', dataPost)
-    .then((res) => {
-      console.log({res})
+    const dataP = await api.post('posts', {
+      data: {
+        content: valuePost,
+        users_permissions_users: user.id
+      }
     })
-    .catch((err) => {
-      console.log({err})
-    })
+    console.log(dataP.status)
+    if(dataP.status == 200) {
+      window.location.reload();
+    }
+    // console.log({dataP})
   }
 
   useEffect(() => {
     setToken(sessionStorage.getItem("token"))
     console.log(sessionStorage.getItem("token"))
   }, [])
+
+  function upGetPosts(){
+    console.log(props)
+  }
+
   return (
     <Card>
       <MDBox component="li" display="flex" alignItems="center" p={2}>
