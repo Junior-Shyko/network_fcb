@@ -1,16 +1,20 @@
-import react, {useState, useContext, useEffect} from 'react';
-import InputBase from '@mui/material/InputBase';
+import react, {useState, useContext, useEffect, useRef} from 'react';
+import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ShareIcon from '@mui/icons-material/Share';
+import burceMars from "assets/images/bruce-mars.jpg";
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 import MDBox from 'components/MDBox';
 import MDAvatar from 'components/MDAvatar';
-import burceMars from "assets/images/bruce-mars.jpg";
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
+
 //CUSTOM CONTEXT
 import { AuthContext } from "context/AuthContext";
 import { api } from 'services/Api';
@@ -19,23 +23,69 @@ export default function FormPost(props) {
   const [valuePost, setValuePost] = useState();
   const { user, setUser} = useContext(AuthContext);
   const { token, setToken } = useContext(AuthContext);
-  const [ envioDeDados, setEnvioDeDados] = useState(false)
+  const [ file, setFile] = useState()
+  const timer = useRef();
+
+
 
   const sendPost = async () => {
     // console.log({valuePost})
+    // const form = document.querySelector('form');
+    // const data = {};
+    // const formData = new FormData();
     
+    // console.log(form.elements)
+    // // Array.from(form.elements).forEach((input) => {
+    // //   console.log(input);
+    // // });
+    // Array.from(form.elements).forEach(({ name, type, value, files, ...element }) => {
+    //   if (!['submit', 'file'].includes(type)) {
+    //     data[name] = value;
+    //   } else if (type === 'file') {
+    //     console.log({files})
+    //     // files.forEach((file) => {
+    //     //   formData.append(`files.${name}`, file, file.name);
+    //     // });
+    //   }
+    // });
+      
+
     api.defaults.headers.Authorization = `Bearer ${token}`;
+    // api.defaults.headers.Content-Type
     const dataP = await api.post('posts', {
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    }, {
       data: {
         content: valuePost,
-        users_permissions_users: user.id
+        users_permissions_users: user.id,
+        file: file
       }
     })
-    console.log(dataP.status)
-    if(dataP.status == 200) {
-      window.location.reload();
-    }
-    // console.log({dataP})
+    .then((res) => {
+      console.log(res)
+      console.log({file})
+      // api.post('upload', {
+      //   data: {
+      //     files: file,
+      //     ref: 'api::post.post',
+      //     refId: res.data.data.id,
+      //     field: 'file'
+      //   }
+      // })
+    })
+    .catch((err) => {
+      console.log({err})
+    })
+   
+  
+    // if(dataP.status == 200) {
+    //   // window.location.reload();
+    //   console.log(dataP.data)
+     
+    // }
+   
   }
 
   useEffect(() => {
@@ -43,8 +93,18 @@ export default function FormPost(props) {
     console.log(sessionStorage.getItem("token"))
   }, [])
 
-  function upGetPosts(){
-    console.log(props)
+
+  function handleFile(event) {
+    console.log(event)
+    setFile(event.target.files[0])
+    // if(event.target.value) {
+      
+    //   timer.current = window.setTimeout(() => {
+    //     // setSuccess(true);
+    //     // setLoading(false);
+    //     setFile('Arquivo Anexado')
+    //   }, 2000);    
+    // }
   }
 
   return (
@@ -63,12 +123,27 @@ export default function FormPost(props) {
             placeholder="Publique algo"
             rows={5}
           />
-        </MDBox>       
+        </MDBox>  
+        
       </MDBox>
+      {file && (
+        <MDBox display="flex" flexDirection="row" p={2}>
+          <Alert severity="success"  fullWidth>Arquivo anexado</Alert>
+        </MDBox>
+      )}
       <CardActions disableSpacing>
-        <IconButton aria-label="Anexar Imagem">
+       
+        {/* <IconButton aria-label="Anexar Imagem">
           <AttachFileIcon />
+        </IconButton> */} 
+        {/* <form>
+        <input type="text" name="cover" />
+        <input accept="image/*" type="file" onChange={handleFile} name="file" /> */}
+        <IconButton color="secondary" aria-label="upload picture" component="label">
+          <input hidden accept="image/*" type="file" onChange={handleFile} name="file" />
+          <PhotoCamera />
         </IconButton>
+        {/* </form> */}
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>

@@ -22,7 +22,7 @@ import EditUser  from "components/FCB/User/Edit";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
-import Container from '@mui/material/Container';
+
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
@@ -153,7 +153,7 @@ export default function App() {
   );
 
   return (
-    <Container>
+    
       <ThemeProvider theme={darkMode ? themeDark : theme}>      
         <CssBaseline />
         {layout === "dashboard" && (
@@ -177,6 +177,6 @@ export default function App() {
           <Route path="usuario/editar/:id" element={<EditUser />} />
         </Routes>
       </ThemeProvider>
-    </Container>
+   
   );
 }
