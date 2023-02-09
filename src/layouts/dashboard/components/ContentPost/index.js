@@ -40,7 +40,9 @@ export default function ContentPost(props) {
                                         content: valRes.attributes.content,
                                         datePost: valRes.attributes.createdAt,
                                         file: valRes.attributes.file.data?.attributes.url,
-                                        institutions: valinst.attributes.name
+                                        institutions: valinst.attributes.name,
+                                        like: valRes.attributes?.like,
+                                        heart: valRes.attributes?.heart
                                     }
                                 )
                             ))
@@ -90,6 +92,8 @@ export default function ContentPost(props) {
                             dtPost={val.datePost}
                             file={val.file}
                             insti={val.institutions}
+                            like={val.like}
+                            heart={val.heart}
                         />
                     ))
                 ): null}
