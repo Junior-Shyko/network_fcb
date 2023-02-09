@@ -11,7 +11,7 @@ import CardActions from "@mui/material/CardActions";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Grid from "@mui/material/Grid";
 import Divider from '@mui/material/Divider';
 
@@ -26,7 +26,7 @@ import { urlBaseApiUpload } from "services/Api";
 function PostContent(props) {
 //   console.log({ props });
 // console.log({urlBaseApiUpload})
-
+ 
   return (
     <Card sx={{ marginTop: "8px" }}>
       {props.file !== undefined && (
@@ -80,14 +80,22 @@ function PostContent(props) {
               sx={{ marginLeft: "3px", fontSize: "16px" }}
             >
               {" "}
-              894.987{" "}
+              {props.like}{" "}
             </MDTypography>
           </IconButton>
           <IconButton
             aria-label="deslike"
             sx={{ fontSize: "18px" }}
           >
-            <ThumbDownAltIcon />
+            <FavoriteIcon />
+            <MDTypography
+              variant="inherit"
+              fontWeight="light"
+              sx={{ marginLeft: "3px", fontSize: "16px" }}
+            >
+              {" "}
+              {props.heart}{" "}
+            </MDTypography>
           </IconButton>
         </Grid>
       </CardActions>
