@@ -23,7 +23,6 @@ import PropTypes from "prop-types";
 
 // @material-ui core components
 import AppBar from "@mui/material/AppBar";
-import Avatar from '@mui/material/Avatar';
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -51,6 +50,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 // Material Dashboard 2 React components
 import MDAvatar from "components/MDAvatar";
 import MDButton from "components/MDButton";
+import MDBox from "components/MDBox";
 
 import { AuthContext } from "context/AuthContext";
 
@@ -221,9 +221,16 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
   const container = windows !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <MDBox
+      color="info"
+      bgColor="info"
+      variant="gradient"
+      borderRadius="lg"
+      shadow="lg"
+      sx={{ display: 'flex' }} 
+    >
       <CssBaseline />
-      <AppBar component="nav" color="white">
+      <AppBar component="nav" color="info">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -306,7 +313,7 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
           {drawer}
         </Drawer>
       </Box>
-    </Box>
+    </MDBox>
   );
 }
 
