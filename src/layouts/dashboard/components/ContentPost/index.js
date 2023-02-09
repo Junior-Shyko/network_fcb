@@ -36,6 +36,7 @@ export default function ContentPost(props) {
                             Object.entries(valUser.attributes.institutions.data).map(([keyRes, valinst], i) => (
                                 postValue.push(
                                     {
+                                        id: valRes.id,
                                         name: valUser.attributes['alias_users'],
                                         content: valRes.attributes.content,
                                         datePost: valRes.attributes.createdAt,
@@ -94,6 +95,7 @@ export default function ContentPost(props) {
                             insti={val.institutions}
                             like={val.like}
                             heart={val.heart}
+                            id={val.id}
                         />
                     ))
                 ): null}
