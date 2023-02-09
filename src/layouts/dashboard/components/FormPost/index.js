@@ -1,14 +1,12 @@
-import react, {useState, useContext, useEffect, useRef} from 'react';
+import {useState, useContext, useEffect, useRef} from 'react';
+import { useSnackbar } from 'notistack';
+
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
-import SendIcon from '@mui/icons-material/Send';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ShareIcon from '@mui/icons-material/Share';
 import burceMars from "assets/images/bruce-mars.jpg";
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
 import MDBox from 'components/MDBox';
 import MDAvatar from 'components/MDAvatar';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
@@ -23,88 +21,76 @@ export default function FormPost(props) {
   const [valuePost, setValuePost] = useState();
   const { user, setUser} = useContext(AuthContext);
   const { token, setToken } = useContext(AuthContext);
-  const [ file, setFile] = useState()
+  const [ filePost, setFilePost] = useState()
   const timer = useRef();
-
+  const { enqueueSnackbar }  = useSnackbar();
 
 
   const sendPost = async () => {
-    // console.log({valuePost})
-    // const form = document.querySelector('form');
-    // const data = {};
-    // const formData = new FormData();
-    
-    // console.log(form.elements)
-    // // Array.from(form.elements).forEach((input) => {
-    // //   console.log(input);
-    // // });
-    // Array.from(form.elements).forEach(({ name, type, value, files, ...element }) => {
-    //   if (!['submit', 'file'].includes(type)) {
-    //     data[name] = value;
-    //   } else if (type === 'file') {
-    //     console.log({files})
-    //     // files.forEach((file) => {
-    //     //   formData.append(`files.${name}`, file, file.name);
-    //     // });
-    //   }
-    // });
-      
-
-    api.defaults.headers.Authorization = `Bearer ${token}`;
-    // api.defaults.headers.Content-Type
-    const dataP = await api.post('posts', {
+    //UPLOAD SÓ É ENVIANDO JUNTO COM OS DADOS SE FOR COM FORMDATA
+    /**
+     * https://docs.strapi.io/developer-docs/latest/plugins/upload.html#examples
+     */
+    const data = {};
+   
+    //CORPO DE ENVIO DE DADOS
+    const dataPostUp =  {
+      content: valuePost,
+      users_permissions_users: user.id
+    }
+    //CONF DAS HEADERS
+    const axiosConfig = {
       headers: {
-          'Content-Type': 'application/json'
+        "Authorization" : `Bearer ${token}`
       }
-    }, {
-      data: {
-        content: valuePost,
-        users_permissions_users: user.id,
-        file: file
+    }
+
+    var dataSend = [];
+    if(filePost) {
+      const formData = new FormData();
+       //PARA ENVIO, OS ARQUIVOS DE MIDIA DEVE VIM PREFIXADO COM (FILES), + NOME DO CAMPO
+      formData.append(`files.file`, filePost, filePost.name);
+      formData.append('data', JSON.stringify(dataPostUp));
+      //add multipart/form-data para o envio de arquivos
+      api.defaults.headers.common['Content-Type'] = 'multipart/form-data';
+      dataSend = formData
+    }else{      
+      //ADD NO SCOPO data: {}
+      dataSend = {
+        data: dataPostUp
       }
-    })
+    }
+    //enviando
+    await api.post('posts', dataSend, axiosConfig )
     .then((res) => {
-      console.log(res)
-      console.log({file})
-      // api.post('upload', {
-      //   data: {
-      //     files: file,
-      //     ref: 'api::post.post',
-      //     refId: res.data.data.id,
-      //     field: 'file'
-      //   }
-      // })
+      window.location.reload();
+      enqueueSnackbar('Sucesso! Post Publicado',{ 
+          autoHideDuration: 2000,
+          variant: 'success',
+          anchorOrigin: {
+            horizontal: 'center',
+            vertical: 'bottom'
+          }
+      });      
     })
     .catch((err) => {
-      console.log({err})
-    })
-   
-  
-    // if(dataP.status == 200) {
-    //   // window.location.reload();
-    //   console.log(dataP.data)
-     
-    // }
-   
+      enqueueSnackbar('Ops! Ocorreu um erro inesperado',{ 
+        autoHideDuration: 2000,
+        variant: 'error',
+        anchorOrigin: {
+          horizontal: 'center',
+          vertical: 'bottom'
+        }
+    });
+    })    
   }
 
   useEffect(() => {
     setToken(sessionStorage.getItem("token"))
-    console.log(sessionStorage.getItem("token"))
   }, [])
 
-
   function handleFile(event) {
-    console.log(event)
-    setFile(event.target.files[0])
-    // if(event.target.value) {
-      
-    //   timer.current = window.setTimeout(() => {
-    //     // setSuccess(true);
-    //     // setLoading(false);
-    //     setFile('Arquivo Anexado')
-    //   }, 2000);    
-    // }
+    setFilePost(event.target.files[0])
   }
 
   return (
@@ -126,24 +112,18 @@ export default function FormPost(props) {
         </MDBox>  
         
       </MDBox>
-      {file && (
+      {filePost && (
         <MDBox display="flex" flexDirection="row" p={2}>
           <Alert severity="success"  fullWidth>Arquivo anexado</Alert>
         </MDBox>
       )}
       <CardActions disableSpacing>
-       
-        {/* <IconButton aria-label="Anexar Imagem">
-          <AttachFileIcon />
-        </IconButton> */} 
-        {/* <form>
-        <input type="text" name="cover" />
-        <input accept="image/*" type="file" onChange={handleFile} name="file" /> */}
+        <form>
         <IconButton color="secondary" aria-label="upload picture" component="label">
           <input hidden accept="image/*" type="file" onChange={handleFile} name="file" />
           <PhotoCamera />
         </IconButton>
-        {/* </form> */}
+        </form>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
