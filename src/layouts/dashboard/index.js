@@ -72,11 +72,11 @@ function Dashboard() {
           </Grid>
           <MDBox>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={6} lg={0.5}>
+              <Grid item xs={12} md={12} lg={0.5}>
               </Grid>
-              <Grid item xs={12} md={6} lg={8.5}>
-              <FormPost upGetPosts={upGetPosts} />
-              <ContentPost getPosts={getPosts} /> 
+              <Grid item xs={12} md={12} lg={8.5}>
+                <FormPost upGetPosts={upGetPosts} />
+                <ContentPost getPosts={getPosts} /> 
               </Grid>
 
               <Grid item xs={3} md={12} lg={3} sx={{maxHeight: 800, overflow: 'auto', borderRadius: '18px', display: { xs: "none", lg: "block" }}}>
