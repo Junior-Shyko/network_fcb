@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Moment from "react-moment";
 import "moment-timezone";
 import "moment/locale/pt-br";
-import Avatar from '@mui/material/Avatar';
+import { RWebShare } from "react-web-share";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from '@mui/material/CardHeader';
@@ -14,6 +14,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ShareIcon from '@mui/icons-material/Share';
 import Grid from "@mui/material/Grid";
 import Divider from '@mui/material/Divider';
 
@@ -26,9 +27,7 @@ import MDBox from "components/MDBox";
 import { api, urlBaseApiUpload } from "services/Api";
 
 function PostContent(props) {
-  console.log({ props });
-// console.log({urlBaseApiUpload})
-console.log(typeof parseInt(props.like))
+
   const [ like, setLike ] = useState( parseInt(props.like) )
   const [ heart, setHeart ] = useState( parseInt(props.heart) )
   const [ activeLike, setActiveLike ] = useState("none")
@@ -163,6 +162,21 @@ console.log(typeof parseInt(props.like))
               {heart}{" "}
             </MDTypography>
           </IconButton>
+          <RWebShare
+              data={{
+                text: "Postagem da rede social Boaz",
+                url: "https://on.natgeo.com/2zHaNup",
+                title: "Boaz Social",
+              }}
+              onClick={() => console.log("shared successfully!")}
+          >
+          <IconButton
+            aria-label="shared"
+            sx={{ fontSize: "18px" }}
+          > 
+            <ShareIcon />
+          </IconButton>
+          </RWebShare>
         </Grid>
       </CardActions>
     </Card>
