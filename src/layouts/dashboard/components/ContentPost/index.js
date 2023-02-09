@@ -7,35 +7,46 @@ import PostContent from "./Post";
 //custom
 import { api } from "services/Api";
 
-export default function ContentPost() {
+export default function ContentPost(props) {
+    console.log({props})
     const [post, setPost] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [updateListPost , setUpdateListPost] = useState(props.getPosts); 
+    const [ totalPost, setTotalPost] = useState(0);
+    const [ noti, setNoti] = useState('');
 
     useEffect(() => {
         const perPage = 2;
-
+        console.log(props.getPosts)
         const getPost = async () => {
-            await api.get(`posts?populate[users_permissions_user][populate]=institutions&populate[file][populate]&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
+            await api.get(`posts?populate[users_permissions_users][populate]=institutions&populate[file][populate]&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
                 .then((res) => {
-                    // console.log(res.data)
+                    console.log(res.data.meta.pagination.total)
+                    console.log('total post ', totalPost)
+                    setTotalPost(res.data.meta.pagination.total)
+                    if(totalPost < res.data.meta.pagination.total) {
+                        console.log('Uma notificacao')
+                    }
                     //POSTVALUE PARA FORMAR UM ARRAY COM OS DADOS QUE PRECISA
                     const postValue = [];
                     //PERCORRENDO TODO O ARRAY PARA MONTAR UM OUTRO
                     Object.entries(res.data.data).map(([keyRes, valRes], i) => (
-                        Object.entries(valRes.attributes.users_permissions_user.data.attributes.institutions.data).map(([keyRes, valinst], i) => (
-                            // console.log(valinst.attributes.name)
-                             postValue.push(
-                                {
-                                    name: valRes.attributes.users_permissions_user.data.attributes['alias_users'],
-                                    content: valRes.attributes.content,
-                                    datePost: valRes.attributes.createdAt,
-                                    file: valRes.attributes.file.data.attributes.url,
-                                    institutions: valinst.attributes.name
-                                }
-                            )     
+                        // console.log(valRes.attributes.users_permissions_users.data)
+                        Object.entries(valRes.attributes.users_permissions_users.data).map(([keyRes, valUser], i) => (
+                            Object.entries(valUser.attributes.institutions.data).map(([keyRes, valinst], i) => (
+                                postValue.push(
+                                    {
+                                        name: valUser.attributes['alias_users'],
+                                        content: valRes.attributes.content,
+                                        datePost: valRes.attributes.createdAt,
+                                        file: valRes.attributes.file.data?.attributes.url,
+                                        institutions: valinst.attributes.name
+                                    }
+                                )
+                            ))
                         ))
                     ));
-                    //PEGANDO OS DADOS ATUAIS E INSETINDO NOVOS DADOS
+                    // //PEGANDO OS DADOS ATUAIS E INSETINDO NOVOS DADOS
                     setPost((prevPosts) => [...prevPosts, ...postValue])
                 })
                 .catch((err) => {
@@ -43,9 +54,16 @@ export default function ContentPost() {
                 })
         }
         getPost();
+
+        const request = async () => {
+            console.log('realiza requisução')
+        }
+
+        request();
+       
     }, [currentPage])
 
-    useEffect(() => {
+    useEffect(() => {     
         const intersectionObserver = new IntersectionObserver(entries => {
           if (entries.some(entry => entry.isIntersecting)) {
             console.log('Sentinela appears!', currentPage + 1)
@@ -54,6 +72,8 @@ export default function ContentPost() {
         })
         intersectionObserver.observe(document.querySelector('#sentinela'));
         return () => intersectionObserver.disconnect();
+
+       
     }, []);
 
     return (

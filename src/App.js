@@ -47,7 +47,6 @@ import createCache from "@emotion/cache";
 import routes from "routes";
 
 // Componente custom
-import {AuthContext} from "./context/AuthContext";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -72,9 +71,6 @@ export default function App() {
   const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
 
-  //CONTEXTO DA AUTENTICAÇÃO
-  const { auth, setAuth } = useContext(AuthContext)
-  const { user, setUser, token, setToken  } = useContext(AuthContext)
   // console.log({user})
   // Cache for the rtl
   useMemo(() => {
@@ -156,19 +152,19 @@ export default function App() {
     </MDBox>
   );
 
-  return direction === "rtl" ? (
-    <CacheProvider value={rtlCache}>
-      <ThemeProvider theme={darkMode ? themeDarkRTL : themeRTL}>
+  return (
+    
+      <ThemeProvider theme={darkMode ? themeDark : theme}>      
         <CssBaseline />
         {layout === "dashboard" && (
-          <>
+          <>  
             <Sidenav
               color={sidenavColor}
               brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
               brandName="Boaz Social"
               routes={routes}
               onMouseEnter={handleOnMouseEnter}
-              onMouseLeave={handleOnMouseLeave}
+              onMouseLeave={handleOnMouseLeave}         
             />
             <Configurator />
             {configsButton}
@@ -178,32 +174,9 @@ export default function App() {
         <Routes>
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/dashboard" />} />
+          <Route path="usuario/editar/:id" element={<EditUser />} />
         </Routes>
       </ThemeProvider>
-    </CacheProvider>
-  ) : (
-    <ThemeProvider theme={darkMode ? themeDark : theme}>      
-      <CssBaseline />
-      {layout === "dashboard" && (
-        <>
-          <Sidenav
-            color={sidenavColor}
-            brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-            brandName="Boaz Social"
-            routes={routes}
-            onMouseEnter={handleOnMouseEnter}
-            onMouseLeave={handleOnMouseLeave}         
-          />
-          <Configurator />
-          {configsButton}
-        </>
-      )}
-      {layout === "vr" && <Configurator />}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-        <Route path="usuario/editar/:id" element={<EditUser />} />
-      </Routes>
-    </ThemeProvider>
+   
   );
 }
