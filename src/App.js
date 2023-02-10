@@ -18,6 +18,7 @@ import { useState, useEffect, useMemo, useContext } from "react";
 import { Routes, Route, Navigate, useLocation} from "react-router-dom";
 // COMPONENTE CUSTOM
 import EditUser  from "components/FCB/User/Edit";
+import DetailPost from "components/FCB/Post/Details";
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -32,15 +33,12 @@ import Configurator from "examples/Configurator";
 
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
-import themeRTL from "assets/theme/theme-rtl";
 
 // Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
-import themeDarkRTL from "assets/theme-dark/theme-rtl";
 
 // RTL plugins
 import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 
 // Material Dashboard 2 React routes
@@ -175,6 +173,7 @@ export default function App() {
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/dashboard" />} />
           <Route path="usuario/editar/:id" element={<EditUser />} />
+          <Route path="post/:id" element={<DetailPost />} />
         </Routes>
       </ThemeProvider>
    

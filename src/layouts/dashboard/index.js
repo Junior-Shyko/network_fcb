@@ -23,6 +23,7 @@ import MDButton from "components/MDButton";
 import {useEffect, useState} from "react"
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
@@ -39,7 +40,7 @@ import Configurator from "examples/Configurator";
 // Dashboard components
 import FormPost from "layouts/dashboard/components/FormPost";
 import ContentPost from "./components/ContentPost";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;

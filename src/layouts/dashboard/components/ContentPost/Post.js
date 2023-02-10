@@ -1,8 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
+// react-router components
+import {Link } from "react-router-dom";
+// componente externo
 import Moment from "react-moment";
 import "moment-timezone";
 import "moment/locale/pt-br";
 import { RWebShare } from "react-web-share";
+
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from '@mui/material/CardHeader';
@@ -17,14 +21,10 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShareIcon from '@mui/icons-material/Share';
 import Grid from "@mui/material/Grid";
 import Divider from '@mui/material/Divider';
-
-import ChurchIcon from '@mui/icons-material/Church';
-import Popover from '@mui/material/Popover';
 // Material Dashboard 2 React components
 import MDTypography from "components/MDTypography";
-import MDBox from "components/MDBox";
 //CUSTOM COMPONENT
-import { api, urlBaseApiUpload } from "services/Api";
+import { api, urlBaseApiUpload, urlBase } from "services/Api";
 
 function PostContent(props) {
 
@@ -80,17 +80,34 @@ function PostContent(props) {
   }
  }
 
+const redirect = (id) => {
+  console.log({id})
+}
+
   return (
     <Card sx={{ marginTop: "8px" }}>
       {props.file !== undefined && (
-          <CardMedia
-            component="img"
-            height="300"
-            image={urlBaseApiUpload + props?.file}
-            sx={{ objectFit: "contain" }}
-        />
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
+        >
+          <Link
+            to={`../post/${props.id}`}
+          >
+            <CardMedia
+              component="img"
+              height="300"
+              image={urlBaseApiUpload + props?.file}
+              sx={{ objectFit: "contain" }}
+              onClick={redirect(props.id)}
+            />
+          </Link>
+        </Grid>
         )
-      }
+      }    
     <CardHeader
         avatar={          
           <AccountCircleIcon fontSize="large" color="inherit"/>
@@ -163,12 +180,12 @@ function PostContent(props) {
             </MDTypography>
           </IconButton>
           <RWebShare
-              data={{
-                text: "Postagem da rede social Boaz",
-                url: "https://on.natgeo.com/2zHaNup",
-                title: "Boaz Social",
-              }}
-              onClick={() => console.log("shared successfully!")}
+            data={{
+              text: props.content,
+              url: urlBase + 'post/'+ props.id ,
+              title: "Publicado",
+            }}
+            onClick={() => console.log("shared successfully!")}
           >
           <IconButton
             aria-label="shared"
@@ -178,7 +195,7 @@ function PostContent(props) {
           </IconButton>
           </RWebShare>
         </Grid>
-      </CardActions>
+      </CardActions>     
     </Card>
   );
 }
