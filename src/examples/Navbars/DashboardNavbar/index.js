@@ -41,8 +41,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
+import LogoutIcon from '@mui/icons-material/Logout';
 import SendIcon from '@mui/icons-material/Send';
+import GroupIcon from '@mui/icons-material/Group';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
@@ -176,22 +178,20 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
   };
 
   const drawer = (
-    <Box sx={{ textAlign: 'center' }}>
+    <Box sx={{ textAlign: 'center'}}>
       <Typography variant="h6" sx={{ my: 2 }}>
         NetWork FCB
       </Typography>
       <Divider />
-      <ListItemButton>
-        <ListItemIcon>
-          <SendIcon />
-        </ListItemIcon>
-        <ListItemText primary="Grupos" />
-      </ListItemButton>
-      <ListItemButton onClick={redirect('reuniao')}>
-        <ListItemIcon>
-          <DraftsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reuniões" />
+      <ListItemButton sx={{ display: 'flex' }}>
+        <Link to="dashboard">
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+        </Link>
+        <Link to="dashboard">
+          <ListItemText primary="Feed" sx={{color: '#757575'}} />
+        </Link>
       </ListItemButton>
       <ListItemButton onClick={handleClick}>
         <ListItemIcon>
@@ -209,13 +209,35 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
             <ListItemText primary="Cadastrar" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 4 }}>
+          <Link to="tables">
             <ListItemIcon>
               <StarBorder />
             </ListItemIcon>
+            </Link>
+          <Link to="tables">
             <ListItemText primary="Todas" />
+          </Link>
           </ListItemButton>
         </List>
       </Collapse>
+      <ListItemButton>
+        <ListItemIcon>
+          <GroupIcon />
+        </ListItemIcon>
+        <ListItemText primary="Grupos" />
+      </ListItemButton>
+      <ListItemButton onClick={redirect('reuniao')}>
+        <ListItemIcon>
+          <PeopleAltIcon />
+        </ListItemIcon>
+        <ListItemText primary="Reuniões" />
+      </ListItemButton>
+      <ListItemButton>
+        <ListItemIcon>
+          <LogoutIcon />
+        </ListItemIcon>
+        <ListItemText primary="Sair" />
+      </ListItemButton>      
     </Box>
   );
   const container = windows !== undefined ? () => window().document.body : undefined;
