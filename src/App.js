@@ -19,6 +19,7 @@ import { Routes, Route, Navigate, useLocation} from "react-router-dom";
 // COMPONENTE CUSTOM
 import EditUser  from "components/FCB/User/Edit";
 import DetailPost from "components/FCB/Post/Details";
+import CadInstituicao from "components/FCB/Instituicao/Cad";
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -174,6 +175,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/dashboard" />} />
           <Route path="usuario/editar/:id" element={<EditUser />} />
           <Route path="post/:id" element={<DetailPost />} />
+          <Route path="cadastro-instituicao" element={<CadInstituicao />} />
         </Routes>
       </ThemeProvider>
    

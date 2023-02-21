@@ -44,6 +44,7 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import Instituicao from "components/FCB/Instituicao/Cad";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -88,6 +89,14 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
     component: <Profile />,
+  },
+  {
+    type: "collapse",
+    name: "Intituição",
+    key: "instituicao",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/cadastro-instituicao",
+    component: <Instituicao />,
   },
   // {
   //   type: "collapse",
