@@ -41,15 +41,12 @@ function FormCadInstitution(props) {
         api.post('auth/local/register', data)
         .then((res) => {
             console.log({res})
-            props.stepCadIns(true)
+            props.stepCadIns(true, res.data.user)
         })
         .catch((err) => {
             console.log({err})
         })
     }
-    console.log(data)
-   
-   
   };
   
 

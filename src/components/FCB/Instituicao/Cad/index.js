@@ -1,28 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-
-import Icon from "@mui/material/Icon";
 import PageLayout from "examples/LayoutContainers/PageLayout";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
-import FormHelperText from "@mui/material/FormHelperText";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import Input from "@mui/material/Input";
+
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 // Material Dashboard 2 React Components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
-import MDAlert from "components/MDAlert";
+
 //COMPONENT CUSTOM
-import PhoneCuston from "components/FCB/Util/PhoneCuston";
 import FormCadInstitution from "./formCad";
+import FormInstitution from "./formInstitution";
 //style css
 import "./cad.css";
 import "animate.css";
-import { api } from "services/Api";
 
 function Instituicao() {
 
@@ -31,6 +25,7 @@ function Instituicao() {
   const [showCadUserInstitution, setShowCadUserInstitution] = useState(true);
   const [showInstituition, setShowInstituition] = useState(false);
   const [open, setOpen] = useState(false);
+  const [userCad, setUserCad] = useState([])
 
   const showPri = () => {
     console.log("showPri");
@@ -50,9 +45,10 @@ function Instituicao() {
     }, 1000);
   };
 
-  function stepCadIns(success) {
+  function stepCadIns(success, user) {
     if(success) {
       handleToggle()
+      setUserCad(user)
     }else{
       handleClose()
     }
@@ -62,8 +58,8 @@ function Instituicao() {
     <PageLayout>
       <Container>
         <Grid container>
-          <Grid item xs={0} sm={2}></Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid item sm={2}></Grid>
+          <Grid item sm={8}>
             <Grid item sx={{ width: "100%" }}>
               <MDBox
                 color="info"
@@ -117,29 +113,7 @@ function Instituicao() {
                 </Backdrop>
 
                 {showInstituition && (
-                  <MDBox
-                    sx={{
-                      mt: 2,
-                      mb: 2,
-                    }}
-                    className="animate__animated animate__backInUp"
-                  >
-                    <InputLabel htmlFor="institution">
-                      Nome da Instituição
-                    </InputLabel>
-                    <Input
-                      id="institution"
-                      fullWidth
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <Icon>person_icon</Icon>
-                        </InputAdornment>
-                      }
-                    />
-                    <FormHelperText className="Mui-error">
-                     Ocorreu um erro inesperado
-                    </FormHelperText>
-                  </MDBox>
+                  <FormInstitution idUser={userCad} />
                 )}
               </MDBox>
             </Grid>
@@ -158,7 +132,7 @@ function Instituicao() {
               </MDTypography>
             </MDBox>
           </Grid>
-          <Grid item xs={0} sm={2}></Grid>
+          <Grid item sm={2}></Grid>
         </Grid>
       </Container>
     </PageLayout>
