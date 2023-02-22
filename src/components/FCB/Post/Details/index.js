@@ -5,25 +5,9 @@ import { api, urlBaseApiUpload } from 'services/Api';
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-// Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
 // import { Container } from './styles';
 import Card from "@mui/material/Card";
-
-
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-
-import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemButton from '@mui/material/ListItemButton';
 import BackLink from 'components/BackLink';
 import Header from './Header';
 import Media from './Media';
@@ -103,7 +87,7 @@ const Details = () => {
           /> 
         ) : <div>Gerando likes</div>
         }
-        <Divider />
+        
       </Card>
 
     </DashboardLayout>

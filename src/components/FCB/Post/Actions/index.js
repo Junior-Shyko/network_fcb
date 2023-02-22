@@ -16,6 +16,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ListItemButton from "@mui/material/ListItemButton";
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Divider from '@mui/material/Divider';
 // Material Dashboard 2 React components
 import MDTypography from "components/MDTypography";
 import MDBox from "components/MDBox";
@@ -133,6 +134,7 @@ function Actions(props) {
         </RWebShare>
       </Grid>
     </CardActions>
+    <Divider />
      <CardContent  sx={{maxHeight: '200px', overflow: 'scroll'}}>
      <MDTypography
        component="div"
