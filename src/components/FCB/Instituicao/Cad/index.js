@@ -92,14 +92,14 @@ function Instituicao() {
                 {showCadUserInstitution && (
                  <FormCadInstitution stepCadIns={stepCadIns}/>
                 )}
-                <MDButton
+                {/* <MDButton
                   type="submit"
                   color="secondary"
                   fullWidth
                   onClick={showPri}
                 >
                   show
-                </MDButton>
+                </MDButton> */}
 
                 <Backdrop
                   sx={{

@@ -226,6 +226,14 @@ function DashboardNavbar({ absolute, light, isMini }, props) {
         </ListItemIcon>
         <ListItemText primary="Grupos" />
       </ListItemButton>
+      <ListItemButton>
+        <ListItemIcon>
+          <GroupIcon />
+        </ListItemIcon>
+        <Link to="../cadastro-instituicao" >
+        <ListItemText primary="Instituicao" />
+        </Link>
+      </ListItemButton>
       <ListItemButton onClick={redirect('reuniao')}>
         <ListItemIcon>
           <PeopleAltIcon />

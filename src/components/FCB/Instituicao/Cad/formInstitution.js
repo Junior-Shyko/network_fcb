@@ -1,18 +1,22 @@
-import React from 'react';
+import {useState} from 'react';
 import { useForm } from "react-hook-form";
 import { api } from 'services/Api';
+import InputMask from "react-input-mask"
 
 import Icon from "@mui/material/Icon";
+import Grid from '@mui/material/Grid';
+import Input from "@mui/material/Input";
+import TextField from '@mui/material/TextField';
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import Input from "@mui/material/Input";
 import FormHelperText from "@mui/material/FormHelperText";
-import Grid from '@mui/material/Grid';
 // Material Dashboard 2 React Components
 import MDBox from "components/MDBox";
 import MDAlert from "components/MDAlert";
 import MDButton from "components/MDButton";
 import { Container } from '@mui/system';
+
+import ModalSuccess from './ModalSuccess';
 
 import "./cad.css";
 
@@ -25,9 +29,38 @@ function FormInstitution(props) {
         formState: { errors },
     } = useForm();
     
+    const [showModalSuccess , setShowModalSuccess] = useState(false)
+    const checkCEP = (e) => {
+        const cep = e.target.value.replace(/\D/g, '');
+     
+        fetch(`https://viacep.com.br/ws/${cep}/json/`).then(res => res.json()).then(data => {
+          console.log(data);
+          // register({ name: 'address', value: data.logradouro });
+        //   setValue('address', data.logradouro);
+        //   setValue('district', data.bairro);
+        //   setValue('city', data.localidade);
+        //   setCity(data.localidade)
+        //   setUf(data.uf);
+          // setValue('uf', data.uf);
+          // setFocus('addressNumber');
+        });
+      }
+
     const onSubmit = (data) => {
-        console.log(props.idUser)
-        console.log({data})
+        setShowModalSuccess(true)
+        // console.log(props.idUser)
+        // console.log({data})
+        // data['user'] = props.idUser.id
+        // const postInst = {
+        //     data: data
+        // }
+        // api.post('institutions', postInst)
+        // .then((res) => {
+        //     console.log({res})
+        // })
+        // .catch((err) => {
+        //     console.log({err})
+        // })
     }
   return (
     <MDBox
@@ -57,20 +90,27 @@ function FormInstitution(props) {
             {errors.name?.message}
         </FormHelperText>
         <Grid container spacing={2}>
-            <Grid item xs={2}>
-            <InputLabel htmlFor="CEP">
-               CEP
-            </InputLabel>
-            <Input
-                id="CEP"
-                fullWidth
-                {...register("cep") }
-                startAdornment={
-                <InputAdornment position="start">
-                    <Icon>filter9_plus_icon</Icon>
-                </InputAdornment>
-                }
+            <Grid item xs={3}>
+           
+            <InputMask
+            mask="99.999-999"
+            disabled={false}
+            maskChar=" "
+            {...register("cep", { maxLength: 10})}
+            onBlur={checkCEP}
+          >
+          {() =>
+            <TextField
+              type="text"
+              label="CEP"
+              ref="cep"
+              name="cep"
+              variant="standard"           
+              fullWidth
+              InputLabelProps={{ shrink: true }}     
             />
+          }
+          </InputMask>
             </Grid>
             <Grid item xs={7}>
             <InputLabel htmlFor="logradouro">
@@ -89,7 +129,7 @@ function FormInstitution(props) {
                 }
             />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
                 <InputLabel htmlFor="number">
                 Número
                 </InputLabel>
@@ -185,6 +225,9 @@ function FormInstitution(props) {
            </Container>
         </Grid>
         </form>
+        {showModalSuccess > 0 && (
+            <ModalSuccess open={true}/>
+        )}
     </MDBox>
   );
 }

@@ -38,14 +38,19 @@ function FormCadInstitution(props) {
         return false;
     }else{
         setVerifyPass(false)
-        api.post('auth/local/register', data)
-        .then((res) => {
-            console.log({res})
-            props.stepCadIns(true, res.data.user)
-        })
-        .catch((err) => {
-            console.log({err})
-        })
+        // api.post('auth/local/register', data)
+        // .then((res) => {
+        //     console.log({res})
+        //     props.stepCadIns(true, res.data.user)
+        // })
+        // .catch((err) => {
+        //     console.log({err})
+        // })
+        let user = {
+            id: 38,
+            name: 'junior'
+        }
+        props.stepCadIns(true,user)
     }
   };
   
