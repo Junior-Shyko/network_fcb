@@ -5,26 +5,20 @@ import {Link } from "react-router-dom";
 import Moment from "react-moment";
 import "moment-timezone";
 import "moment/locale/pt-br";
-import { RWebShare } from "react-web-share";
 
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ShareIcon from '@mui/icons-material/Share';
 import Grid from "@mui/material/Grid";
 import Divider from '@mui/material/Divider';
 // Material Dashboard 2 React components
 import MDTypography from "components/MDTypography";
 //CUSTOM COMPONENT
-import { api, urlBaseApiUpload, urlBase } from "services/Api";
+import { api, urlBaseApiUpload } from "services/Api";
+import Actions from "components/FCB/Post/Actions";
 
 function PostContent(props) {
 
@@ -136,66 +130,11 @@ const redirect = (id) => {
           {props.content}
         </MDTypography>
       </CardContent>
-      <CardActions disableSpacing className="elementCardAction">
-        <Grid item xs={12} md={12} lg={12}>
-          <IconButton
-            aria-label="like"
-            // color="info"
-            sx={{ fontSize: "18px" }}
-            onClick={handleLike}
-          >
-            {activeLike === 'none' && (
-              <ThumbUpOffAltIcon />
-            )}
-            {activeLike === 'like' && (
-              <ThumbUpIcon />
-            )}
-            <MDTypography
-              variant="inherit"
-              fontWeight="light"
-              sx={{ marginLeft: "3px", fontSize: "16px" }}
-            >
-              {" "}
-              {like}{" "}
-            </MDTypography>
-          </IconButton>
-          <IconButton
-            aria-label="deslike"
-            sx={{ fontSize: "18px" }}
-            onClick={handleHeart}
-          > 
-            {activeHeart === 'none' && (
-              <FavoriteBorderIcon />
-            )}
-            {activeHeart === 'like' && (
-              <FavoriteIcon />
-            )}
-            <MDTypography
-              variant="inherit"
-              fontWeight="light"
-              sx={{ marginLeft: "3px", fontSize: "16px" }}
-            >
-              {" "}
-              {heart}{" "}
-            </MDTypography>
-          </IconButton>
-          <RWebShare
-            data={{
-              text: props.content,
-              url: urlBase + 'post/'+ props.id ,
-              title: "Publicado",
-            }}
-            onClick={() => console.log("shared successfully!")}
-          >
-          <IconButton
-            aria-label="shared"
-            sx={{ fontSize: "18px" }}
-          > 
-            <ShareIcon />
-          </IconButton>
-          </RWebShare>
-        </Grid>
-      </CardActions>     
+      {/* componente action */}
+      {/* <Actions
+        post={props}
+        like={props.like}
+        heart={props.heart} /> */}
     </Card>
   );
 }

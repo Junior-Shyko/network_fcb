@@ -1,6 +1,7 @@
-import React from 'react';
-import { useNavigate, Link } from "react-router-dom";
-import { api } from 'services/Api';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from "react-router-dom";
+
+import { api, urlBaseApiUpload } from 'services/Api';
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -9,13 +10,12 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 // import { Container } from './styles';
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardHeader from '@mui/material/CardHeader';
+
+
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 import IconButton from '@mui/material/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Divider from '@mui/material/Divider';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -25,116 +25,85 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
 import BackLink from 'components/BackLink';
+import Header from './Header';
+import Media from './Media';
+import Content from './Content';
+import Actions from '../Actions';
 
-function Details() {
+const Details = () => {
+  let { id } = useParams();
+  const [posts, setPosts] = useState([])
+  const [userPost, setUserPost] = useState();
+  const [ file, setFile] =  useState([]);
+  const [ like, setLike ] = useState();
+  const [ heart, setHeart ] = useState();
+  const [ isLike, setIsLike ] = useState(false);
+
+  console.log({isLike})
+
+  useEffect(() => {
+    const getPost = async () => {
+      await api.get('posts/'+id+'?populate=*')
+      .then((res) => {
+        console.log(res.data.data)
+        setPosts(res.data.data)
+        setLike(res.data.data.attributes.like)
+        setHeart(res.data.data.attributes.heart)
+        Object.entries(res.data.data.attributes.users_permissions_users.data).map(([keyRes, valRes], i) => (
+          setUserPost(valRes)
+        ))
+        Object.entries(res.data.data.attributes.file.data).map(([keyRes, valRes], i) => (
+          setFile(valRes)
+        ))
+      })
+      .catch((err) => {
+        console.log({err})
+      })
+    }
+    getPost()
+    //
+    const getLikes = async() => {
+      const userAuth = JSON.parse(sessionStorage.getItem("user"));
+      const idUsers = [];
+     await api.get('likes?populate=users_permissions_users&filters[post][id][$eq]='+id)
+      .then((res) => {
+        res.data.data.map((post) => {
+          // console.log(post.attributes.users_permissions_users.data) 
+          post.attributes.users_permissions_users.data.map((users) => {
+            if(userAuth.id == users.id) {
+              console.log('gostou')
+              setIsLike(true)
+            }
+          })
+        })
+      })
+      .catch((err) => {
+        console.log({err})
+      })
+    }
+    getLikes();
+  }, [])
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />       
+      <DashboardNavbar />
       <Card  sx={{marginTop: '80px'}}>
         <BackLink />
-        <CardHeader
-          avatar={
-            <AccountCircleIcon fontSize="large" color="inherit"/>
-          }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
-        />
-        <CardMedia
-          sx={{ height: 300 }}
-          image="https://demos.creative-tim.com/material-dashboard-pro-react/static/media/product-1-min.a4c2bc133076d3b7c517.jpg"
-          title="green iguana"
-        />
-        <CardContent>
-          <MDTypography
-            component="div"
-            variant="subtitle1"
-            color="dark"
-            fontWeight="regular"
-          >
-            This impressive paella is a perfect party dish and a fun meal to
-             cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like.
-          </MDTypography>
-        </CardContent>
+          <Header user={userPost} datePost={posts.attributes?.createdAt} />
+          <Media image={urlBaseApiUpload+file.url} />
+          <Content content={posts.attributes?.content} />
         <Divider />
-        <CardContent>
-          <MDTypography
-            component="div"
-            variant="button"
-            color="dark"
-            fontWeight="regular"
-          >
-            <strong>25</strong> Curtidas
-          </MDTypography>
-        </CardContent>
+        {
+        posts ? (
+          <Actions
+            post={posts} 
+            like={like}
+            heart={posts.attributes?.heart}
+            islike={isLike}
+          /> 
+        ) : <div>Gerando likes</div>
+        }
         <Divider />
-        <CardActions disableSpacing>
-          <IconButton aria-label="Curti a postagem">
-            <ThumbUpOffAltIcon />
-          </IconButton>
-          <IconButton aria-label="Amei a postagem">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="Compartilhar">
-            <ShareIcon />
-          </IconButton>
-        </CardActions>
-        <Divider />
-        
-        <CardContent  sx={{maxHeight: '200px', overflow: 'scroll'}}>
-        <MDTypography
-            component="div"
-            variant="button"
-            color="dark"
-            fontWeight="regular"
-          >
-            Pessoas que curtiram
-          </MDTypography>
-          <MDTypography
-            component="div"
-            variant="subtitle1"
-            color="dark"
-            fontWeight="regular"
-          >
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Trash" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component="a" href="#simple-list">
-                  <ListItemText primary="Spam" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Trash" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component="a" href="#simple-list">
-                  <ListItemText primary="Spam" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemText primary="Trash" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component="a" href="#simple-list">
-                  <ListItemText primary="Spam" />
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </MDTypography>
-        </CardContent>
       </Card>
 
     </DashboardLayout>

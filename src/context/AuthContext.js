@@ -15,9 +15,8 @@ function AuthProvider({children}) {
    useEffect(() =>{
     const userToken = sessionStorage.getItem("token");
     const userAuth = sessionStorage.getItem("user");
-    console.log({userAuth})
+
     if(userAuth) {
-      // console.log({userAuth})
       setUser(JSON.parse(userAuth))
       setAuth(true)
     }else{

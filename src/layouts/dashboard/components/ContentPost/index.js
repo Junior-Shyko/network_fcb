@@ -8,7 +8,7 @@ import PostContent from "./Post";
 import { api } from "services/Api";
 
 export default function ContentPost(props) {
-    console.log({props})
+   
     const [post, setPost] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [updateListPost , setUpdateListPost] = useState(props.getPosts); 
@@ -17,21 +17,19 @@ export default function ContentPost(props) {
 
     useEffect(() => {
         const perPage = 2;
-        console.log(props.getPosts)
+        
         const getPost = async () => {
             await api.get(`posts?populate[users_permissions_users][populate]=institutions&populate[file][populate]&sort[0]=id:DESC&pagination[page]=${currentPage}&pagination[pageSize]=${perPage}`)
                 .then((res) => {
-                    console.log(res.data.meta.pagination.total)
-                    console.log('total post ', totalPost)
+                   
                     setTotalPost(res.data.meta.pagination.total)
-                    if(totalPost < res.data.meta.pagination.total) {
-                        console.log('Uma notificacao')
-                    }
+                    // if(totalPost < res.data.meta.pagination.total) {
+                    //     console.log('Uma notificacao')
+                    // }
                     //POSTVALUE PARA FORMAR UM ARRAY COM OS DADOS QUE PRECISA
                     const postValue = [];
                     //PERCORRENDO TODO O ARRAY PARA MONTAR UM OUTRO
                     Object.entries(res.data.data).map(([keyRes, valRes], i) => (
-                        // console.log(valRes.attributes.users_permissions_users.data)
                         Object.entries(valRes.attributes.users_permissions_users.data).map(([keyRes, valUser], i) => (
                             Object.entries(valUser.attributes.institutions.data).map(([keyRes, valinst], i) => (
                                 postValue.push(
@@ -69,7 +67,6 @@ export default function ContentPost(props) {
     useEffect(() => {     
         const intersectionObserver = new IntersectionObserver(entries => {
           if (entries.some(entry => entry.isIntersecting)) {
-            console.log('Sentinela appears!', currentPage + 1)
             setCurrentPage((currentValue) => currentValue + 1);
           }         
         })
