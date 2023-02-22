@@ -69,14 +69,16 @@ function Instituicao() {
                 shadow="lg"
                 opacity={1}
                 p={2}
-                mt={5}
+                // mt={5}
               >
+                <MDBox display="flex" justifyContent="center" sx={{background: 'black'}}>
                 <img
                   className="image-cad"
                   src={
-                    "https://s3-sa-east-1.amazonaws.com/projetos-artes/fullsize%2F2011%2F05%2F11%2F07%2FWDL-Logo-3935_10551_035635661_1757781196.jpg"
+                    "https://i.imgur.com/JGpn6xr.png"
                   }
                 />
+                </MDBox>
                 <MDBox>
                   <MDTypography variant="h2" className="text-center">
                     A Família Campo de Boaz
