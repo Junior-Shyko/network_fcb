@@ -82,18 +82,18 @@ export default function ContentPost(props) {
             <MDBox mb={0.5}>                
                 {post.length > 0 ? (
                     Object.entries(post).map(([key, val], i) => (
-                        // console.log(val)
-                        <PostContent
-                            key={i}
-                            user={val.name}
-                            content={val.content}
-                            dtPost={val.datePost}
-                            file={val.file}
-                            insti={val.institutions}
-                            like={val.like}
-                            heart={val.heart}
-                            id={val.id}
-                        />
+                        console.log(val)
+                        // <PostContent
+                        //     key={i}
+                        //     user={val.name}
+                        //     content={val.content}
+                        //     dtPost={val.datePost}
+                        //     file={val.file}
+                        //     insti={val.institutions}
+                        //     like={val.like}
+                        //     heart={val.heart}
+                        //     id={val.id}
+                        // />
                     ))
                 ): null}
                 <MDBox id="sentinela"></MDBox>

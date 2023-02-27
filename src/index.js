@@ -19,15 +19,20 @@ import { SnackbarProvider } from 'notistack';
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
 import AuthProvider from "./context/AuthContext";
+import { QueryClient, QueryClientProvider } from 'react-query'
 // Material Dashboard 2 React Context Provider
 import { MaterialUIControllerProvider } from "context";
+
+const queryClient = new QueryClient()
 
 ReactDOM.render(
   <BrowserRouter>
     <MaterialUIControllerProvider>
       <AuthProvider>
         <SnackbarProvider maxSnack={3}>
-          <App />
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
         </SnackbarProvider>
       </AuthProvider>
     </MaterialUIControllerProvider>

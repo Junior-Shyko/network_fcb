@@ -1,7 +1,6 @@
 import React from 'react';
 import CardContent from "@mui/material/CardContent";
 import MDTypography from "components/MDTypography";
-// import { Container } from './styles';
 
 function Content(props) {
   return (
@@ -12,7 +11,7 @@ function Content(props) {
         color="dark"
         fontWeight="regular"
         >
-        {props.content}
+        {props.post.content}
         </MDTypography>
     </CardContent>
   );

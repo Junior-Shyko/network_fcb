@@ -1,12 +1,14 @@
 import React from 'react';
 import CardMedia from "@mui/material/CardMedia";
-// import { Container } from './styles';
+
+import { urlBaseApiUpload } from 'services/Api';
 
 function Media(props) {
   return (
     <CardMedia
-        sx={{ height: 500}}
-        image={props.image}
+      component="img"
+      height="194"
+      image={urlBaseApiUpload + props.post.attributes.url}
     />
   );
 }

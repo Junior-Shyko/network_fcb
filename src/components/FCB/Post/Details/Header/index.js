@@ -10,21 +10,29 @@ import IconButton from '@mui/material/IconButton';
 // import { Container } from './styles';
 Moment.globalLocale = 'pt-br'
 function Header(props) {
-    const dateToFormat = props.datePost;
+    const dateToFormat = props.datePost.createdAt;
 
   return (
-    <CardHeader
-        avatar={
-        <AccountCircleIcon fontSize="large" color="inherit"/>
-        }
-        action={
-        <IconButton aria-label="settings">
-            <MoreVertIcon />
-        </IconButton>
-        }
-        title={props.user?.attributes.alias_users}
-        subheader={<Moment locale="pt-br">{dateToFormat}</Moment>}
-    />
+    <>
+     {
+        Object.entries(props.datePost.attributes.users_permissions_users.data).map(([keyRes, valRes], i) => (
+          <CardHeader
+              avatar={
+              <AccountCircleIcon fontSize="large" color="inherit"/>
+              }
+              action={
+              <IconButton aria-label="settings">
+                  <MoreVertIcon />
+              </IconButton>
+              }
+            
+              title={valRes.attributes.alias_users}
+              subheader={<Moment locale="pt-br">{dateToFormat}</Moment>}
+          />
+        ))   
+      }
+    </>
+    
   );
 }
 

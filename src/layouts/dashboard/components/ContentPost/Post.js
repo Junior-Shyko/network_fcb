@@ -27,53 +27,7 @@ function PostContent(props) {
   const [ activeLike, setActiveLike ] = useState("none")
   const [ activeHeart, setActiveHeart ] = useState("none")
 
-  const AlterLike = async(count, type) => {
-    api.defaults.headers.authorization = `Bearer ${sessionStorage.getItem("token")}`;
-    if(type === 'like') {
-      await api.put('posts/'+props.id, {
-        data: {
-          like: count
-        }
-      })
-    }else{
-      await api.put('posts/'+props.id, {
-        data: {
-          heart: count
-        }
-      })
-    }   
-  }
-
- const handleLike = async () => {
-  if (activeLike === "none") {
-    setLike(like + 1)
-    setActiveLike("like")
-    AlterLike(like + 1 , 'like')
-    return;
-  }
-  if (activeLike === 'like'){
-    setLike(like - 1)
-    setActiveLike("none")
-    AlterLike(like - 1, 'like')
-    return;
-  }
- }
-
- const handleHeart = () => {
-  if (activeHeart === "none") {
-    setHeart(heart + 1);
-    setActiveHeart("like");
-    AlterLike(heart + 1 , 'heart')
-    return;
-  }
-  if (activeHeart === 'like'){
-    setHeart(heart - 1);
-    setActiveHeart("none");
-    AlterLike(heart -1 , 'heart')
-    return;
-  }
- }
-
+ 
 const redirect = (id) => {
   console.log({id})
 }
@@ -131,10 +85,12 @@ const redirect = (id) => {
         </MDTypography>
       </CardContent>
       {/* componente action */}
-      {/* <Actions
+      <Actions
         post={props}
         like={props.like}
-        heart={props.heart} /> */}
+        heart={props.heart}
+        usersLikes={false}
+      />
     </Card>
   );
 }
