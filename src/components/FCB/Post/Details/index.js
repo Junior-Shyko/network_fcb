@@ -16,7 +16,7 @@ import Actions from '../Actions';
 
 const Details = () => {
   let { id } = useParams();
-  const [posts, setPosts] = useState([])
+  // const [posts, setPosts] = useState([])
   const [userPost, setUserPost] = useState();
   const [ file, setFile] =  useState([]);
   const [ like, setLike ] = useState();
@@ -25,17 +25,25 @@ const Details = () => {
   const [ usersLikes, setUsersLikes] = useState([]);
   const [ usersHearts, setUsersHearts] = useState([]);
 
-  async function getPostQuery() {
-    const res = await api.get('posts/'+id+'?populate=*')
-    console.log(res.data.data)
-    return res.data.data
-  }
 
-  const { isLoading, error, data } = useQuery(['posts' , id], () => getPostQuery() )
+  // async function getPostQuery() {
+  //   const res = await api.get('posts/'+id+'?populate=*')
+  //   return res.data.data
+  // }
+  
+  // async function getLikes() {
+  //   const res = await api.get('likes?populate=users_permissions_users&filters[post][id][$eq]='+id)
+  //   console.log(res.data.data)
+  //   return res.data.data
+  // }
 
-  if (isLoading) return 'Loading...'
- 
-  if (error) return 'An error has occurred: ' + error.message
+  // const posts = useQuery(['posts' , id], () => getPostQuery() )
+  // const likes = useQuery([] , () => getLikes())
+
+
+  // if (isFetching) return 'Aguardando posts...'
+
+  // if (error) return 'An error has occurred: ' + error.message
 
   // useEffect(() => {
   //   //usuário logado
@@ -123,22 +131,22 @@ const Details = () => {
 
       <Card  sx={{marginTop: '80px'}}>
         <BackLink />
-          <Header datePost={data} />
-          <Media post={data.attributes.file.data} />
-          <Content post={data.attributes} />
+          
+          {/* <Media post={posts} />
+          <Content post={posts} /> */}
         <Divider />
         {
-        data ? (
+        id ? (
           <Actions
-            post={data} 
+            post={id} 
             // like={like}
             // heart={posts.attributes?.heart}
-            // islike={isLike}
-            // listUsersLikes={true}
-            // usersLikes={usersLikes}
+            // listUsersLikes={getLike}
+            // usersLikes={likes}
             // usersHearts={usersHearts}
             // contentShared={posts.attributes?.content}
           /> 
+          // <div>Posts</div>
         ) : <div>Gerando likes</div>
         }
         
