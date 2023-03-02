@@ -3,9 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import MDTypography from "components/MDTypography";
 
 function Content(props) {
-  if (props.post.isLoading) return 'Lendo...'
- 
-  if (props.post.error) return 'Ocorreu um erro inesperado: ' + props.post.error.message
+
 
   return (
     <CardContent>
@@ -15,7 +13,7 @@ function Content(props) {
         color="dark"
         fontWeight="regular"
         >
-        {props.post.data.attributes.content}
+        {props.post.data.data.attributes.content}
         </MDTypography>
     </CardContent>
   );

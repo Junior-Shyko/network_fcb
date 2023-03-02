@@ -7,19 +7,16 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CardHeader from '@mui/material/CardHeader';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
-// import { Container } from './styles';
+
 Moment.globalLocale = 'pt-br'
+
 function Header(props) {
- if (props.datePost.isLoading) return 'Lendo Header...'
- 
-  if (props.datePost.error) return 'An error has occurred: ' + props.datePost.error.message
-
-  const dateToFormat = props.datePost.data.attributes.createdAt;
-
+  console.log(props)
+  const dateToFormat = props.post.data.data.attributes.createdAt;
   return (
     <>
      {
-        Object.entries(props.datePost.data.attributes.users_permissions_users.data).map(([keyRes, valRes], i) => (
+        Object.entries(props.post.data.data.attributes.users_permissions_users.data).map(([keyRes, valRes], i) => (
           <CardHeader
               key={i}
               avatar={

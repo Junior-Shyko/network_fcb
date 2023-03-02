@@ -5,11 +5,10 @@ import { urlBaseApiUpload } from 'services/Api';
 
 function Media(props) {
   return (
-    // <></>
     <CardMedia
       component="img"
-      height="250"
-      image={urlBaseApiUpload + props.post.data.attributes.file.data.attributes.url}
+      height="100"
+      image={urlBaseApiUpload + props.post.data.data.attributes.file.data.attributes.url}
     />
   );
 }
