@@ -1,4 +1,6 @@
 import {useState} from 'react';
+import { useNavigate } from "react-router-dom";
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,7 +13,7 @@ import MDButton from "components/MDButton";
 import MDBox from "components/MDBox"
 
 export default function ModalSuccess(props) {
-
+  const navigate = useNavigate();
   const [open, setOpen] = useState(props.open);
   
   const redirectInsta = () => {    
@@ -19,8 +21,9 @@ export default function ModalSuccess(props) {
   };
 
   const handleClose = () => {
-    // window.location.href = '/authentication/sign-up'
+    // window.location.href = '/authentication/sign-up'    
     setOpen(false);
+    navigate('authentication/sign-up')
   };
 
   return (
@@ -74,11 +77,7 @@ export default function ModalSuccess(props) {
                 width='96' 
               />
               </MDBox>
-           
             </Grid>
-          
-           
-         
           </DialogContentText>
           <DialogContentText id="alert-dialog-description">
           <MDTypography
@@ -98,7 +97,7 @@ export default function ModalSuccess(props) {
                 variant="gradient"
                 color="success"
               >
-                Fazer outro cadastro
+                Realizar Login
               </MDButton>
             </Grid>
             <Grid item xs={6} md={6} 

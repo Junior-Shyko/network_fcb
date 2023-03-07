@@ -32,8 +32,9 @@ function FormCadInstitution(props) {
     data['phone'] = phone
     data['username'] = data.alias
     data['birthday'] = '1984-11-05'
+
     if(data.password !== data.conf_pass) {
-        console.log('senhas nao confere')
+      console.log({data})
         setVerifyPass(true)
         return false;
     }else{
@@ -124,6 +125,7 @@ function FormCadInstitution(props) {
         <Input
           id="pass"
           fullWidth
+          type="password"
           {...register("password", { required: true })}
           startAdornment={
             <InputAdornment position="start">
@@ -137,6 +139,7 @@ function FormCadInstitution(props) {
         <Input
           id="conf_pass"
           fullWidth
+          type="password"
           {...register("conf_pass", { required: true })}
           startAdornment={
             <InputAdornment position="start">
@@ -165,7 +168,12 @@ function FormCadInstitution(props) {
             não confere
           </MDAlert>
         )}
-        <MDButton type="submit" color="secondary" fullWidth>
+        <MDButton
+          type="submit"
+          color="secondary"
+          fullWidth
+          sx={{mt: 2}}
+        >
           Próximo
         </MDButton>
       </div>
